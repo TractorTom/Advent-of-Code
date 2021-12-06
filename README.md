@@ -1,8 +1,7 @@
 # Advent-of-Code
 
-Voici mes résultats de l'advent of code (adventofcode.com/2020). 
-
-Je mettrai mes résultats à jour le 25/12 tel un cadeau de Noël ! 
+Voici mes résultats de l'advent of code (adventofcode.com/2021). 
+J'essaye de mettre à jour (chaque jour) mes codes de résolution.
 
 ```
            ++++    ++++
