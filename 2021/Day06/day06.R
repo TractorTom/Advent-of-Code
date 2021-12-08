@@ -1,13 +1,13 @@
-#Titre : day0-.R
+#Titre : day06.R
 #Auteur : Tanguy
 
 ##############
-##  DAY 0-  ##
+##  DAY 06  ##
 ##############
 
 options(digits = 20)
 
-######IdataFishPORT DATA######
+######IMPORT DATA######
 
 internal_time_lanternfish_example <- readLines("./2021/Day06/internal_time_example.txt")
 internal_time_lanternfish <- readLines("./2021/Day06/internal_time.txt")
