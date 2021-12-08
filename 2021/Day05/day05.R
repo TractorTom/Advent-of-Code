@@ -86,7 +86,7 @@ solve_day05_part2 <- function(dataVents){
     return(sum(map$map > 1))
 }
 
-######DECLARATION FONCTIONS######
+######EXECUTION######
 
 solve_day05_part1(dataVents = hydrothermal_vents_example)
 solve_day05_part1(dataVents = hydrothermal_vents)
