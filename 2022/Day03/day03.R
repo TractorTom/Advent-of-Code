@@ -14,7 +14,7 @@ rucksack_example <- read.table("./2022/Day03/rucksack_example.txt")
 
 # Déclaration fonction ----------------------------------------------------
 
-priority <- data.frame(lettera = c(letters, LETTERS), 
+priority <- data.frame(letter = c(letters, LETTERS), 
                        priority = 1:52)
 
 solve_day03_part1 <- function(data_rucksack) {
@@ -27,7 +27,7 @@ solve_day03_part1 <- function(data_rucksack) {
                                           \(x, y) intersect(strsplit(x, "") |> unlist(), 
                                                             strsplit(y, "") |> unlist()))
         ) |> 
-        merge(y = priority, by.x = "common_item", by.y = "lettera") |> 
+        merge(y = priority, by.x = "common_item", by.y = "letter") |> 
         dplyr::pull(priority) |> 
         sum()
 }
@@ -38,7 +38,7 @@ solve_day03_part2 <- function(data_rucksack) {
         dplyr::mutate(group = rep(1:(dplyr::n() / 3), each = 3)) |> 
         dplyr::group_by(group) |> 
         dplyr::summarise(common_item = Reduce(f = intersect, x = strsplit(content, ""))) |> 
-        merge(y = priority, by.x = "common_item", by.y = "lettera") |> 
+        merge(y = priority, by.x = "common_item", by.y = "letter") |> 
         dplyr::pull(priority) |> 
         sum()
 }
