@@ -17,7 +17,7 @@ cargo_crane <- readLines("./2022/Day05/cargo_crane.txt")
 create_crane_stack <- function(data_cargo_crane) {
     nb_col <- (nchar(data_cargo_crane[1]) + 1) / 4
     nb_row <- which(data_cargo_crane == "") - 2
-    index_col <- 2 + (seq_len(nb_col) - 1)*4
+    index_col <- 2 + (seq_len(nb_col) - 1) * 4
     
     return(
         data_cargo_crane[seq_len(nb_row)] |> 
@@ -32,7 +32,7 @@ create_crane_stack <- function(data_cargo_crane) {
 create_list_moves <- function(data_cargo_crane) {
     first_row <- which(data_cargo_crane == "") + 1
     return(
-        data_cargo_crane[seq(first_row, length(data_cargo_crane))]|> 
+        data_cargo_crane[seq(first_row, length(data_cargo_crane))] |> 
             as.data.frame() |> 
             tidyr::separate(col = 1, sep = " ", convert = TRUE, 
                             into = c("instruction", "nb", NA, "col1", NA, "col2"))
