@@ -27,7 +27,6 @@ compute_winner <-  (function(hand1, hand2) {
     return((difference + 1) %% 3)
 }) |> Vectorize(USE.NAMES = FALSE)
 
-
 solve_day02_part1 <- function(data_game) {
     data_game |> 
         dplyr::rename(elf_choice = 1, 
@@ -56,7 +55,6 @@ solve_day02_part2 <- function(data_game) {
         dplyr::mutate(score = score_result * 3 + (score_hand + score_result - 1) %% 3 + 1) |> 
         dplyr::pull(score) |> 
         sum()
-    
 }
 
 
