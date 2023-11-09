@@ -28,7 +28,7 @@ convert_bob_10 <- (function(b_bob) {
     }
 
     return(somme)
-}) |> 
+}) |>
     base::Vectorize()
 
 convert_10_bob <- function(b10) {

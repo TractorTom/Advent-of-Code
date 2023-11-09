@@ -37,11 +37,11 @@ solve_day10_part1 <- function(data_cpu) {
     data_cpu |>
         compute_value() |>
         dplyr::mutate(
+            cond1 = cycle == 20 | (cycle - 20) %% 40 == 0, 
+            cond2 = (instr == "addx") & ((cycle - 1) == 20 | (cycle - 20 - 1) %% 40 == 0), 
             strength = dplyr::case_when(
-                (cycle == 20 || (cycle - 20) %% 40 == 0) ~ cycle * instant_value,
-                (instr == "addx") &
-                    ((cycle - 1) == 20 ||
-                        (cycle - 20 - 1) %% 40 == 0) ~ (cycle - 1) * instant_value,
+                cond1 ~ cycle * instant_value,
+                cond2 ~ (cycle - 1) * instant_value,
                 TRUE ~ 0
             )
         ) |>

@@ -44,10 +44,13 @@ compute_rules <- function(data_monkey) {
     nb_monkey <- (length(data_monkey) + 1) / 7
     for (monkey_k in seq_len(nb_monkey)) {
         index <- (monkey_k - 1) * 7
-        item <- c(item, list(substr(data_monkey[index + 2], 19, 50) |>
-            strsplit(", ") |>
-            unlist() |>
-            as.numeric()))
+        item <- c(
+            item, 
+            list(substr(data_monkey[index + 2], 19, 50) |>
+                     strsplit(", ") |>
+                     unlist() |>
+                     as.numeric())
+        )
         operation <- c(operation, list(function_factory(
             op = substr(data_monkey[index + 3], 24, 24),
             val = substr(data_monkey[index + 3], 26, 50)
