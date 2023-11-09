@@ -17,8 +17,8 @@ diagnostic_report <- t(matrix(as.numeric(do.call(c, strsplit(diagnostic_report, 
 
 ######DECLARATION FONCTION######
 
-solve_day03_part1 <- function(dataDiagnostic){
-    gamma <- apply(dataDiagnostic, 2, mean) >= 0.5
+solve_day03_part1 <- function(dataDiagnostic) {
+    gamma <- apply(dataDiagnostic, 2, mean) >= .5
     epsilon <- 1 - gamma
     
     gamma <- sum(gamma * 2 ** ((length(gamma) - 1):0))
@@ -27,11 +27,11 @@ solve_day03_part1 <- function(dataDiagnostic){
     return(gamma * epsilon)
 }
 
-solve_day03_part2 <- function(dataDiagnostic){
+solve_day03_part2 <- function(dataDiagnostic) {
     dataTemp <- dataDiagnostic
     k <- 1
-    while (!is.null(dim(dataTemp)) & sum(!duplicated(dataTemp)) != 1){
-        val_mod <- (mean(dataTemp[, k]) >= 0.5)
+    while (!is.null(dim(dataTemp)) & sum(!duplicated(dataTemp)) != 1) {
+        val_mod <- (mean(dataTemp[, k]) >= .5)
         dataTemp <- dataTemp[dataTemp[, k] == val_mod, ]
         k <- k + 1
     }
@@ -40,8 +40,8 @@ solve_day03_part2 <- function(dataDiagnostic){
     
     dataTemp <- dataDiagnostic
     k <- 1
-    while (!is.null(dim(dataTemp)) & sum(!duplicated(dataTemp)) != 1){
-        val_non_mod <- 1 - (mean(dataTemp[, k]) >= 0.5)
+    while (!is.null(dim(dataTemp)) & sum(!duplicated(dataTemp)) != 1) {
+        val_non_mod <- 1 - (mean(dataTemp[, k]) >= .5)
         if (!val_non_mod %in% dataTemp[, k]) val_non_mod <- 1 - val_non_mod
         dataTemp <- dataTemp[dataTemp[, k] == val_non_mod, ]
         k <- k + 1

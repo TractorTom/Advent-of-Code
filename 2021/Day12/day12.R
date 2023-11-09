@@ -14,13 +14,13 @@ map_remaining_caves_L_example <- readLines("./2021/Day12/map_remaining_caves_eve
 
 ######TRAITEMENT dataMap######
 
-traitement <- function(dataMap){
+traitement <- function(dataMap) {
     
     liste_arretes <- unlist(strsplit(dataMap, "-"))
     liste_sommets <- unique(liste_arretes)
     arbre <- list(sommets = liste_sommets)
     
-    for (num_arrete in 1:length(dataMap)){
+    for (num_arrete in 1:length(dataMap)) {
         
         sommet1 <- liste_arretes[2 * num_arrete - 1]
         sommet2 <- liste_arretes[2 * num_arrete]
@@ -40,13 +40,13 @@ map_remaining_caves <- traitement(map_remaining_caves)
 
 ######DECLARATION FONCTION######
 
-count_paths <- function(dataMap, part1, part2){
+count_paths <- function(dataMap, part1, part2) {
     
-    aux_rec <- function(sommet, prin_sommets, comp_sommets){
+    aux_rec <- function(sommet, prin_sommets, comp_sommets) {
         
         if (sommet == "end") return(1)
         
-        if (tolower(sommet) == sommet){
+        if (tolower(sommet) == sommet) {
             prin_sommets2 <- prin_sommets[prin_sommets != sommet]
             if (sommet %in% prin_sommets) comp_sommets2 <- comp_sommets
             else if (sommet %in% comp_sommets) comp_sommets2 <- NULL
@@ -61,7 +61,7 @@ count_paths <- function(dataMap, part1, part2){
         destinations <- destinations[destinations %in% c(prin_sommets2, comp_sommets2)]
         
         somme_path <- 0
-        for (sommet_dest in destinations){
+        for (sommet_dest in destinations) {
             somme_path <- somme_path + aux_rec(sommet = sommet_dest, 
                                                prin_sommets = prin_sommets2, 
                                                comp_sommets = comp_sommets2)
@@ -70,9 +70,9 @@ count_paths <- function(dataMap, part1, part2){
         return(somme_path)
     }
     
-    if (part1){
+    if (part1) {
         return(aux_rec(sommet = "start", prin_sommets = dataMap$sommet, comp_sommets = NULL))
-    } else if (part2){
+    } else if (part2) {
         return(aux_rec(sommet = "start", prin_sommets = dataMap$sommet, 
                        comp_sommets = dataMap$sommets[tolower(dataMap$sommets) == dataMap$sommets]))
     } else {
@@ -80,10 +80,10 @@ count_paths <- function(dataMap, part1, part2){
     }
 }
 
-solve_day12_part1 <- function(dataMap){
+solve_day12_part1 <- function(dataMap) {
     return(count_paths(dataMap, part1 = T, part2 = F))
 }
-solve_day12_part2 <- function(dataMap){
+solve_day12_part2 <- function(dataMap) {
     return(count_paths(dataMap, part1 = F, part2 = T))
 }
 

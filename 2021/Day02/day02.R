@@ -12,7 +12,7 @@ course <- read.table("./2021/Day02/planned_course.txt")
 
 ######DECLARATION FONCTION######
 
-solve_day02_part1 <- function(dataPlan){
+solve_day02_part1 <- function(dataPlan) {
     
     forward <- sum(as.double(dataPlan[dataPlan$V1 == "forward", "V2"]))
     up <- sum(as.double(dataPlan[dataPlan$V1 == "up", "V2"]))
@@ -22,7 +22,7 @@ solve_day02_part1 <- function(dataPlan){
     return(forward * depth)
 }
 
-solve_day02_part2 <- function(dataPlan){
+solve_day02_part2 <- function(dataPlan) {
     
     forward <- sum(as.double(dataPlan[dataPlan$V1 == "forward", "V2"]))
     depth <- 0
@@ -30,15 +30,15 @@ solve_day02_part2 <- function(dataPlan){
     
     list_index_forward <- (1:nrow(dataPlan))[dataPlan$V1 == "forward"]
     
-    for (k in 1:(length(list_index_forward))){
+    for (k in 1:(length(list_index_forward))) {
         
         index <- list_index_forward[k]
-        if (index != 1){
+        if (index != 1) {
             
             if (k == 1) index_prec <- 1
             else index_prec <- list_index_forward[k - 1]
             
-            if (index - index_prec > 1){
+            if (index - index_prec > 1) {
                 sub_data <- dataPlan[index_prec:index, ]
                 up <- sum(as.double(sub_data[sub_data$V1 == "up", "V2"]))
                 down <- sum(as.double(sub_data[sub_data$V1 == "down", "V2"]))
