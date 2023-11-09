@@ -12,21 +12,21 @@ segments_example <- read.table("./2021/Day08/random_segments_example.txt")
 
 ######DECLARATION FONCTION######
 
-without <- function(x, wo){
+without <- function(x, wo) {
     x_str <- strsplit(x, "")[[1]]
     wo_str <- strsplit(wo, "")[[1]]
     return(x_str[!x_str %in% wo_str])
 }
 
-index_contained <- function(liste_chaine, pattern, is.deco = F, same = F){
+index_contained <- function(liste_chaine, pattern, is.deco = F, same = F) {
     if (!is.deco) pattern <- strsplit(pattern, "")[[1]]
-    return(sapply(liste_chaine, FUN = function(code){
+    return(sapply(liste_chaine, FUN = function(code) {
         if (same) return(all(pattern %in% strsplit(code, "")[[1]]) & length(pattern) == nchar(code))
         return(all(pattern %in% strsplit(code, "")[[1]]))
     }))
 }
 
-compute_motif <- function(signal){
+compute_motif <- function(signal) {
     
     motif <- data.frame(a = as.character(signal), b = rep(0, 10))
     
@@ -51,10 +51,10 @@ compute_motif <- function(signal){
     return(motif)
 }
 
-solve_day08_part1 <- function(dataSegment){
+solve_day08_part1 <- function(dataSegment) {
     count <- c(0, 0, 0, 0)
-    for (col in 12:15){
-        for (line in 1:nrow(dataSegment)){
+    for (col in 12:15) {
+        for (line in 1:nrow(dataSegment)) {
             if (nchar(dataSegment[line, col]) == 2) count[1] <- count[1] + 1
             if (nchar(dataSegment[line, col]) == 3) count[3] <- count[3] + 1
             if (nchar(dataSegment[line, col]) == 4) count[2] <- count[2] + 1
@@ -64,13 +64,13 @@ solve_day08_part1 <- function(dataSegment){
     return(sum(count))
 }
 
-solve_day08_part2 <- function(dataSegment){
+solve_day08_part2 <- function(dataSegment) {
     somme <- 0
-    for (line in 1:nrow(dataSegment)){
+    for (line in 1:nrow(dataSegment)) {
         
         motif <- compute_motif(dataSegment[line, 1:10])
         number <- 0
-        for (col in 12:15){
+        for (col in 12:15) {
             chiffre <- motif[index_contained(liste_chaine = motif$a, 
                                              pattern = dataSegment[line, col], 
                                              same = T), "b"]

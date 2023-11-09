@@ -17,16 +17,16 @@ position_crab <- as.numeric(strsplit(position_crab, split = ",")[[1]])
 
 ######DECLARATION FONCTIONS######
 
-score <- function(val){
+score <- function(val) {
     return(val * (val + 1) / 2)
 }
 
-solve_day07_part1 <- function(dataPosition){
+solve_day07_part1 <- function(dataPosition) {
     index <- median(dataPosition)
     return(sum(abs(dataPosition - index)))
 }
 
-solve_day07_part2 <- function(dataPosition){
+solve_day07_part2 <- function(dataPosition) {
     return(min(sum(score(abs(dataPosition - floor(mean(dataPosition))))), 
                sum(score(abs(dataPosition - floor(mean(dataPosition)) - 1)))
                )
