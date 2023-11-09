@@ -30,7 +30,7 @@ traitement <- function(dataPage1) {
     output_fold <- dataPage1[index:length(dataPage1)]
 
     output_mat <- matrix(".", nrow = max(output_table[, 2]), ncol = max(output_table[, 1]))
-    for (index_b in 1:nrow(output_table)) {
+    for (index_b in seq_len(nrow(output_table))) {
         output_mat[output_table[index_b, 2], output_table[index_b, 1]] <- "*"
     }
 

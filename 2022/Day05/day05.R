@@ -53,9 +53,11 @@ move_p1 <- function(data_crane_stack, nb, col1, col2) {
     if (nb == 0) {
         return(data_crane_stack)
     }
-    return(data_crane_stack |>
-        one_move(col1, col2) |>
-        move_p1(nb - 1, col1, col2))
+    return(
+        data_crane_stack |>
+            one_move(col1, col2) |>
+            move_p1(nb - 1, col1, col2)
+    )
 }
 
 move_p2 <- function(data_crane_stack, nb, col1, col2) {

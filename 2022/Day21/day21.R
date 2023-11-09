@@ -39,7 +39,7 @@ op_fraction <- function(op, fr1, fr2) {
     denom_1 <- fr1[2]
     num_2 <- fr2[1]
     denom_2 <- fr2[2]
-
+    
     if (op == "+") {
         num <- num_1 * denom_2 + num_2 * denom_1
         denom <- denom_1 * denom_2
@@ -51,11 +51,11 @@ op_fraction <- function(op, fr1, fr2) {
         denom <- denom_1 * denom_2
     } else if (op == "/") {
         if (denom_1 * num_2 == 0) stop("On ne peut diviser par zero.")
-
+        
         num <- num_1 * denom_2
         denom <- num_2 * denom_1
     }
-
+    
     pgcd <- gmp::gcd(num, denom)
     num <- num %/% pgcd
     denom <- denom %/% pgcd
@@ -110,8 +110,11 @@ traitement_p2 <- function(data_monkey) {
                 ),
                 TRUE ~ formule
             ),
-            is.nb = !grepl(x = formule, pattern = c("\\+", "\\-", "\\*", "\\/") |>
-                paste0(collapse = "|")),
+            is.nb = !grepl(
+                x = formule, 
+                pattern = c("\\+", "\\-", "\\*", "\\/") |> 
+                    paste0(collapse = "|")
+            ),
             to_do = TRUE,
             is.nb_left = is.nb,
             is.nb_right = is.nb,
@@ -123,27 +126,27 @@ traitement_p2 <- function(data_monkey) {
                 TRUE ~ list(c(rep(NA_real_, 4)))
             )
         )
-
+    
     for (monk in seq_len(nrow(data_monkey))) {
         if (data_monkey$is.nb[monk] && data_monkey$nom[monk] != "humn") {
             val <- as.numeric(data_monkey$formule[monk])
             data_monkey$value[monk] <- list(c(val, 1, 0, 1))
         }
     }
-
+    
     return(data_monkey)
 }
 
 solve_day21_part1 <- function(data_monkey) {
     data_monkey <- traitement_p1(data_monkey)
     nb <- nrow(data_monkey)
-
+    
     while (isFALSE(data_monkey$is.nb[data_monkey$nom == "root"])) {
         for (k in 1:nb) {
             if (data_monkey$is.nb[k] && data_monkey$not_done[k]) {
                 nomk <- data_monkey$nom[k]
                 val <- data_monkey$res[k]
-
+                
                 data_monkey <- data_monkey |>
                     dplyr::mutate(
                         formule = gsub(x = formule, pattern = nomk, replacement = val)
@@ -151,7 +154,7 @@ solve_day21_part1 <- function(data_monkey) {
                 data_monkey$not_done[k] <- FALSE
             }
         }
-
+        
         for (k in 1:nb) {
             if (data_monkey$not_done[k] && class(try(eval(parse(text = data_monkey$formule[k])), silent = TRUE)) != "try-error") {
                 data_monkey$res[k] <- eval(parse(text = data_monkey$formule[k]))
@@ -159,13 +162,13 @@ solve_day21_part1 <- function(data_monkey) {
             }
         }
     }
-
+    
     return(data_monkey[data_monkey$nom == "root", "res"])
 }
 
 solve_day21_part2 <- function(data_monkey) {
     data_monkey <- data_monkey |> traitement_p2()
-
+    
     while (!data_monkey$is.nb[data_monkey$nom == "root"]) {
         monkey_to_do <- data_monkey$nom[data_monkey$to_do && data_monkey$is.nb]
         for (monk in monkey_to_do) {
@@ -173,17 +176,17 @@ solve_day21_part2 <- function(data_monkey) {
             data_monkey$is.nb_right[data_monkey$right == monk] <- TRUE
         }
         data_monkey$to_do[data_monkey$to_do && data_monkey$is.nb] <- FALSE
-
+        
         index_to_compute <- which(!data_monkey$is.nb)
         for (index_monk in index_to_compute) {
             if (all(data_monkey[index_monk, c("is.nb_left", "is.nb_right")])) {
                 left_monkey <- data_monkey[index_monk, "left"]
                 right_monkey <- data_monkey[index_monk, "right"]
                 op <- data_monkey[index_monk, "op"]
-
+                
                 left_val <- data_monkey$value[data_monkey$nom == left_monkey] |> unlist()
                 right_val <- data_monkey$value[data_monkey$nom == right_monkey] |> unlist()
-
+                
                 val <- op_complex(op, left_val, right_val)
                 data_monkey$value[index_monk] <- list(val)
                 data_monkey$is.nb[index_monk] <- TRUE

@@ -30,25 +30,25 @@ index_contained <- function(liste_chaine, pattern, is.deco = FALSE, same = FALSE
 
 compute_motif <- function(signal) {
     motif <- data.frame(a = as.character(signal), b = rep(0, 10))
-
+    
     motif[nchar(motif$a) == 2, "b"] <- 1
     motif[nchar(motif$a) == 3, "b"] <- 7
     motif[nchar(motif$a) == 4, "b"] <- 4
     motif[nchar(motif$a) == 7, "b"] <- 8
-
+    
     motif[index_contained(liste_chaine = motif$a, pattern = motif[motif$b == 4, "a"]) &
-        motif$b == 0, "b"] <- 9
+              motif$b == 0, "b"] <- 9
     motif[index_contained(liste_chaine = motif$a, pattern = motif[motif$b == 1, "a"]) &
-        motif$b == 0 && nchar(motif$a) == 5, "b"] <- 3
+              motif$b == 0 && nchar(motif$a) == 5, "b"] <- 3
     trois_sans_un <- without(x = motif[motif$b == 3, "a"], wo = motif[motif$b == 1, "a"])
     motif[index_contained(liste_chaine = motif$a, pattern = trois_sans_un, is.deco = TRUE) &
-        motif$b == 0 && nchar(motif$a) == 6, "b"] <- 6
+              motif$b == 0 && nchar(motif$a) == 6, "b"] <- 6
     huit_sans_six <- without(x = motif[motif$b == 8, "a"], wo = motif[motif$b == 6, "a"])
     motif[index_contained(liste_chaine = motif$a, pattern = huit_sans_six, is.deco = TRUE) &
-        motif$b == 0 && nchar(motif$a) == 5, "b"] <- 2
-
+              motif$b == 0 && nchar(motif$a) == 5, "b"] <- 2
+    
     motif[nchar(motif$a) == 5 && motif$b == 0, "b"] <- 5
-
+    
     return(motif)
 }
 
