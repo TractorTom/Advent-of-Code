@@ -23,7 +23,6 @@ pre_treatment <- function(data_buffer) {
 }
 
 find_first_marker <- function(data_buffer, length_marker = 4) {
-    
     index <- 0
     test_marker <- c()
     while (length(unique(test_marker)) != length_marker) {
@@ -37,17 +36,41 @@ find_first_marker <- function(data_buffer, length_marker = 4) {
 # Execution ---------------------------------------------------------------
 
 # Part1
-buffer_example1 |> pre_treatment() |> find_first_marker(length_marker = 4)
-buffer_example2 |> pre_treatment() |> find_first_marker(length_marker = 4)
-buffer_example3 |> pre_treatment() |> find_first_marker(length_marker = 4)
-buffer_example4 |> pre_treatment() |> find_first_marker(length_marker = 4)
-buffer_example5 |> pre_treatment() |> find_first_marker(length_marker = 4)
-buffer |> pre_treatment() |> find_first_marker(length_marker = 4)
+buffer_example1 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
+buffer_example2 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
+buffer_example3 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
+buffer_example4 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
+buffer_example5 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
+buffer |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 4)
 
 # Part2
-buffer_example1 |> pre_treatment() |> find_first_marker(length_marker = 14)
-buffer_example2 |> pre_treatment() |> find_first_marker(length_marker = 14)
-buffer_example3 |> pre_treatment() |> find_first_marker(length_marker = 14)
-buffer_example4 |> pre_treatment() |> find_first_marker(length_marker = 14)
-buffer_example5 |> pre_treatment() |> find_first_marker(length_marker = 14)
-buffer |> pre_treatment() |> find_first_marker(length_marker = 14)
+buffer_example1 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)
+buffer_example2 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)
+buffer_example3 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)
+buffer_example4 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)
+buffer_example5 |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)
+buffer |>
+    pre_treatment() |>
+    find_first_marker(length_marker = 14)

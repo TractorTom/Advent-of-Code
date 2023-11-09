@@ -30,19 +30,18 @@ get_dir_content <- function(extr_command) {
     index <- 2
     while (index <= length(extr_command) && compte > 0) {
         instr <- strsplit(extr_command[index], " ") |> unlist()
-        if (instr[1] == "$" & instr[2] == "cd" & instr[3] == "..") {
+        if (instr[1] == "$" && instr[2] == "cd" && instr[3] == "..") {
             compte <- compte - 1
-        } else if (instr[1] == "$" & instr[2] == "cd") {
+        } else if (instr[1] == "$" && instr[2] == "cd") {
             compte <- compte + 1
         }
         index <- index + 1
     }
-    
+
     return(extr_command[seq_len(index)])
 }
 
 count_repository_size <- function(dir_content) {
-    
     all_size <- sapply(dir_content, FUN = function(instr) {
         first_part <- (strsplit(instr, " ") |> unlist())[1]
         if (!first_part %in% c("$", "dir")) {
@@ -50,15 +49,15 @@ count_repository_size <- function(dir_content) {
         }
         return(0)
     })
-    
+
     return(sum(all_size, na.rm = TRUE))
 }
 
 get_all_size <- function(data_command) {
     all_cd <- get_index_cd(data_command)
     all_size <- sapply(all_cd, FUN = function(i) {
-        data_command[seq(i, length(data_command))] |> 
-            get_dir_content() |> 
+        data_command[seq(i, length(data_command))] |>
+            get_dir_content() |>
             count_repository_size()
     })
     return(all_size)

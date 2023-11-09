@@ -16,9 +16,8 @@ coordinates_example <- read.table("./2022/Day20/grove's_coordinates_example.txt"
 # Déclaration fonction ---------------------------------------------------------
 
 get_n_suiv <- function(i, suiv, n) {
-    
     n <- n %% (length(suiv) - 1)
-    
+
     ind <- i
     for (k in seq_len(n)) {
         ind <- suiv[ind]
@@ -27,17 +26,15 @@ get_n_suiv <- function(i, suiv, n) {
 }
 
 mix <- function(data_coordinates, n) {
-    
     index_suivant <- seq_along(data_coordinates) + 1
     index_suivant[length(data_coordinates)] <- 1
-    
+
     for (step in seq_len(n)) {
-        
         for (k in seq_along(data_coordinates)) {
             index_suivant_k <- index_suivant[k]
             dep <- data_coordinates[k]
             s <- get_n_suiv(k, index_suivant, dep)
-            
+
             if (s != k) {
                 prec_k <- which(index_suivant == k)
                 index_suivant[prec_k] <- index_suivant_k
@@ -46,7 +43,7 @@ mix <- function(data_coordinates, n) {
             }
         }
     }
-    
+
     return(index_suivant)
 }
 
@@ -54,12 +51,12 @@ get_grove_coordinate <- function(data_coordinates, index_suivant) {
     nb <- length(data_coordinates)
     mixed_file <- c()
     ind <- index_suivant[which(data_coordinates == 0)]
-    
+
     for (k in seq_len(nb)) {
         mixed_file <- c(mixed_file, data_coordinates[ind])
         ind <- index_suivant[ind]
     }
-    
+
     return(mixed_file[((1000 - 1) %% nb + 1)] + mixed_file[((2000 - 1) %% nb + 1)] + mixed_file[((3000 - 1) %% nb + 1)])
 }
 

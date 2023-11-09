@@ -1,16 +1,16 @@
-#Titre : day01.R
-#Auteur : Tanguy
+# Titre : day01.R
+# Auteur : Tanguy
 
 ##############
 ##  DAY 01  ##
 ##############
 
-######IMPORT DATA######
+###### IMPORT DATA ######
 
 report <- read.table("./2021/Day01/sonar_report.txt")[, 1]
 report_example <- read.table("./2021/Day01/sonar_report_example.txt")[, 1]
 
-######DECLARATION FONCTION######
+###### DECLARATION FONCTION ######
 
 count_increases <- function(serie) {
     return(sum(serie[-1] - serie[-length(serie)] > 0))
@@ -22,7 +22,7 @@ compute_sliding_window <- function(serie) {
         serie[-(1:2)])
 }
 
-######EXECUTION######
+###### EXECUTION ######
 
 count_increases(serie = report_example)
 count_increases(serie = report)
