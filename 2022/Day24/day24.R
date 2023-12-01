@@ -27,7 +27,7 @@ modulo_vectorise <- function(indexs, pos, all_step) {
 
 get_blizzard_position <- function(data_valley) {
     data_valley <- data_valley |> strsplit("")
-    blizzard_position <- c()
+    blizzard_position <- NULL
     ordre <- c("<", ">", "^", "v")
 
     for (row in seq_along(data_valley)) {

@@ -86,7 +86,6 @@ get_last_digit_p2 <- function(k) {
 }
 
 solve_day01_part2 <- function(data_calibration) {
-    
     s <- 0
     for (k in data_calibration) {
         n1 <- get_first_digit_p2(k)

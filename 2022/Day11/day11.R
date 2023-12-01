@@ -37,9 +37,9 @@ function_factory <- function(op, val) {
 compute_rules <- function(data_monkey) {
     item <- list()
     operation <- list()
-    test <- c()
-    test_false <- c()
-    test_true <- c()
+    test <- NULL
+    test_false <- NULL
+    test_true <- NULL
 
     nb_monkey <- (length(data_monkey) + 1) / 7
     for (monkey_k in seq_len(nb_monkey)) {

@@ -24,7 +24,7 @@ pre_treatment <- function(data_buffer) {
 
 find_first_marker <- function(data_buffer, length_marker = 4) {
     index <- 0
-    test_marker <- c()
+    test_marker <- NULL
     while (length(unique(test_marker)) != length_marker) {
         index <- index + 1
         test_marker <- data_buffer[index:(index + length_marker - 1)]
