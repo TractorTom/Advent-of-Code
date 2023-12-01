@@ -53,7 +53,7 @@ find_low_points <- function(dataHeightmap) {
     dim_x <- dim(dataHeightmap)[1]
     dim_y <- dim(dataHeightmap)[2]
 
-    low_points <- c()
+    low_points <- NULL
     for (x in 1:dim_x) {
         for (y in 1:dim_y) {
             if (is_low_point(dataHeightmap, x, y)) {
@@ -98,7 +98,7 @@ compute_bassin <- function(dataHeightmap, x, y) {
 
 solve_day09_part2 <- function(dataHeightmap) {
     low_points <- find_low_points(dataHeightmap)
-    size_all_bassin <- c()
+    size_all_bassin <- NULL
 
     for (low_point in low_points) {
         x <- low_point[1]

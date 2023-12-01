@@ -279,7 +279,7 @@ get_list_instr <- function(all_instr) {
     index2 <- 1
 
     dire <- "R"
-    list_instr <- c()
+    list_instr <- NULL
 
     while (index < nchar(all_instr)) {
         if (index > 1) {

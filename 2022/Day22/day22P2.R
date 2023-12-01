@@ -241,7 +241,7 @@ list_cubes <- list(
 index <- 0
 index2 <- 1
 dire <- "R"
-list_instr <- c()
+list_instr <- NULL
 while (index < nchar(instr)) {
     if (index > 1) {
         dire <- substr(instr, index, index)

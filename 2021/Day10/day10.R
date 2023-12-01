@@ -13,7 +13,7 @@ subsystem_example <- readLines("./2021/Day10/navigation_subsystem_example.txt")
 ###### DECLARATION FONCTION ######
 
 score_first_error <- function(line) {
-    opened_chunks <- c()
+    opened_chunks <- NULL
     ligne <- strsplit(line, split = "")[[1]]
 
     # Cas des lignes avec de problèmes de syntaxe interne
@@ -40,7 +40,7 @@ score_first_error <- function(line) {
 }
 
 score_last_error <- function(line) {
-    opened_chunks <- c()
+    opened_chunks <- NULL
     ligne <- strsplit(line, split = "")[[1]]
 
     # Cas des lignes avec de problèmes de syntaxe interne
@@ -95,7 +95,7 @@ solve_day10_part1 <- function(dataSubsystem) {
 }
 
 solve_day10_part2 <- function(dataSubsystem) {
-    score <- c()
+    score <- NULL
     for (lig in seq_along(dataSubsystem)) {
         score <- c(score, score_last_error(dataSubsystem[lig]))
     }

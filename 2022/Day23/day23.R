@@ -70,7 +70,7 @@ display_map <- function(map) {
 
 get_pos <- function(data_grove) {
     data_grove <- data_grove |> strsplit("")
-    pos <- c()
+    pos <- NULL
 
     for (elf in seq_along(data_grove)) {
         if ("#" %in% data_grove[[elf]]) {

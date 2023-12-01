@@ -15,7 +15,7 @@ command_example <- readLines("./2022/Day07/command_example.txt")
 # Déclaration fonction ---------------------------------------------------------
 
 get_index_cd <- function(data_command) {
-    index_cd <- c()
+    index_cd <- NULL
     for (k in seq_along(data_command)) {
         instr <- strsplit(data_command[k], " ") |> unlist()
         if (instr[1] == "$" && instr[2] == "cd" && instr[3] != "..") {

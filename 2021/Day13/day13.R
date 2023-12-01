@@ -15,7 +15,7 @@ page1_example <- readLines("./2021/Day13/instructions_example.txt")
 traitement <- function(dataPage1) {
     dim_x <- 0
     dim_y <- 0
-    output_table <- c()
+    output_table <- NULL
 
     index <- 1
     line <- dataPage1[index]

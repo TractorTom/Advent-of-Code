@@ -49,7 +49,7 @@ mix <- function(data_coordinates, n) {
 
 get_grove_coordinate <- function(data_coordinates, index_suivant) {
     nb <- length(data_coordinates)
-    mixed_file <- c()
+    mixed_file <- NULL
     ind <- index_suivant[which(data_coordinates == 0)]
 
     for (k in seq_len(nb)) {
