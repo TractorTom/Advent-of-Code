@@ -59,7 +59,7 @@ flashes <- function(dataEnergy) {
 
 solve_day11_part1 <- function(dataEnergy, n = 100) {
     nbr_0 <- 0
-    for (k in 1:n) {
+    for (k in seq_len(n)) {
         dataEnergy <- flashes(dataEnergy)
         val <- sum(dataEnergy == 0)
         nbr_0 <- nbr_0 + val

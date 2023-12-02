@@ -23,14 +23,24 @@ solve_day03_part1 <- function(data_rucksack) {
     data_rucksack |>
         dplyr::rename(content = 1) |>
         dplyr::mutate(
-            first_compartment = substr(content, 1, nchar(content) / 2),
-            second_compartment = substr(content, 1 + nchar(content) / 2, nchar(content)),
+            first_compartment = substr(
+                x = content,
+                start = 1,
+                stop = nchar(content) / 2
+            ),
+            second_compartment = substr(
+                x = content,
+                start = 1 + nchar(content) / 2,
+                stop = nchar(content)
+            ),
             common_item = purrr::map2_chr(
-                first_compartment, second_compartment,
-                \(x, y) intersect(
-                    strsplit(x, "") |> unlist(),
-                    strsplit(y, "") |> unlist()
-                )
+                .x = first_compartment, .y = second_compartment,
+                .f = \(x, y) {
+                    intersect(
+                        strsplit(x, "") |> unlist(),
+                        strsplit(y, "") |> unlist()
+                    )
+                }
             )
         ) |>
         merge(y = priority, by.x = "common_item", by.y = "letter") |>
@@ -43,7 +53,10 @@ solve_day03_part2 <- function(data_rucksack) {
         dplyr::rename(content = 1) |>
         dplyr::mutate(group = rep(1:(dplyr::n() / 3), each = 3)) |>
         dplyr::group_by(group) |>
-        dplyr::summarise(common_item = Reduce(f = intersect, x = strsplit(content, ""))) |>
+        dplyr::summarise(common_item = Reduce(
+            f = intersect,
+            x = strsplit(content, "")
+        )) |>
         merge(y = priority, by.x = "common_item", by.y = "letter") |>
         dplyr::pull(priority) |>
         sum()

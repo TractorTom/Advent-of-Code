@@ -9,20 +9,37 @@
 # Import data -------------------------------------------------------------
 
 assignments <- read.table("./2022/Day04/assignments.txt", sep = ",")
-assignments_example <- read.table("./2022/Day04/assignments_example.txt", sep = ",")
+assignments_example <- read.table(
+    file = "./2022/Day04/assignments_example.txt",
+    sep = ","
+)
 
 
 # Déclaration fonction ----------------------------------------------------
 
 prepare_data <- function(section_assignments) {
     section_assignments |>
-        tidyr::separate(V1, sep = "-", into = c("borne_inf_1", "borne_sup_1"), convert = TRUE) |>
-        tidyr::separate(V2, sep = "-", into = c("borne_inf_2", "borne_sup_2"), convert = TRUE) |>
+        tidyr::separate(
+            col = V1,
+            sep = "-",
+            into = c("borne_inf_1", "borne_sup_1"),
+            convert = TRUE
+        ) |>
+        tidyr::separate(
+            col = V2,
+            sep = "-",
+            into = c("borne_inf_2", "borne_sup_2"),
+            convert = TRUE
+        ) |>
         dplyr::mutate(
-            fully_contains = ((borne_inf_1 <= borne_inf_2) && (borne_sup_1 >= borne_sup_2)) |
-                ((borne_inf_2 <= borne_inf_1) && (borne_sup_2 >= borne_sup_1)),
-            overlaps = fully_contains || (borne_inf_1 >= borne_inf_2 && borne_inf_1 <= borne_sup_2) |
-                (borne_inf_2 >= borne_inf_1 && borne_inf_2 <= borne_sup_1)
+            fully_contains =
+                ((borne_inf_1 <= borne_inf_2)
+                 & (borne_sup_1 >= borne_sup_2)) |
+                ((borne_inf_2 <= borne_inf_1)
+                 & (borne_sup_2 >= borne_sup_1)),
+            overlaps = fully_contains
+            | (borne_inf_1 >= borne_inf_2 & borne_inf_1 <= borne_sup_2)
+            | (borne_inf_2 >= borne_inf_1 & borne_inf_2 <= borne_sup_1)
         )
 }
 

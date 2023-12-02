@@ -6,13 +6,13 @@
 ##############
 
 
-# Import data -------------------------------------------------------------
+# Import data ------------------------------------------------------------------
 
 cargo_crane_example <- readLines("./2022/Day05/cargo_crane_example.txt")
 cargo_crane <- readLines("./2022/Day05/cargo_crane.txt")
 
 
-# Déclaration fonction ----------------------------------------------------
+# Déclaration fonction ---------------------------------------------------------
 
 create_crane_stack <- function(data_cargo_crane) {
     nb_col <- (nchar(data_cargo_crane[1]) + 1) / 4
@@ -83,7 +83,11 @@ solve_day05_part1 <- function(data_cargo_crane) {
             )
     }
 
-    return(sapply(crane_stack, base::`[[`, 1) |> paste(collapse = ""))
+    return(vapply(
+        X = crane_stack,
+        FUN = base::`[[`, 1,
+        FUN.VALUE = character(1)
+    ) |> paste(collapse = ""))
 }
 
 solve_day05_part2 <- function(data_cargo_crane) {
@@ -99,11 +103,15 @@ solve_day05_part2 <- function(data_cargo_crane) {
             )
     }
 
-    return(sapply(crane_stack, base::`[[`, 1) |> paste(collapse = ""))
+    return(vapply(
+        X = crane_stack,
+        FUN = base::`[[`, 1,
+        FUN.VALUE = character(1)
+    ) |> paste(collapse = ""))
 }
 
 
-# Execution ---------------------------------------------------------------
+# Execution --------------------------------------------------------------------
 
 solve_day05_part1(cargo_crane_example)
 solve_day05_part1(cargo_crane)
