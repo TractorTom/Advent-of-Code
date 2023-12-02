@@ -6,13 +6,13 @@
 ##############
 
 
-# Import data -------------------------------------------------------------
+# Import data ------------------------------------------------------------------
 
 calorie <- readLines("./2022/Day01/calorie.txt")
 calorie_example <- readLines("./2022/Day01/calorie_example.txt")
 
 
-# Déclaration fonction ----------------------------------------------------
+# Déclaration fonction ---------------------------------------------------------
 
 traitement_calorie <- function(tab) {
     tab |>
@@ -32,15 +32,15 @@ table_somme_calorie_example <- traitement_calorie(calorie_example)
 table_somme_calorie <- traitement_calorie(calorie)
 
 
-# Execution ---------------------------------------------------------------
+# Execution --------------------------------------------------------------------
 
-## Part 1 ------------------------------------------------------------------
+## Part 1 ----------------------------------------------------------------------
 
 table_somme_calorie_example[1]
 table_somme_calorie[1]
 
 
-## Part 2 ------------------------------------------------------------------
+## Part 2 ----------------------------------------------------------------------
 
 table_somme_calorie_example[1:3] |> sum()
 table_somme_calorie[1:3] |> sum()

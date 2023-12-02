@@ -142,7 +142,7 @@ solve_day21_part1 <- function(data_monkey) {
     nb <- nrow(data_monkey)
     
     while (isFALSE(data_monkey$is.nb[data_monkey$nom == "root"])) {
-        for (k in 1:nb) {
+        for (k in seq_len(nb)) {
             if (data_monkey$is.nb[k] && data_monkey$not_done[k]) {
                 nomk <- data_monkey$nom[k]
                 val <- data_monkey$res[k]
@@ -155,7 +155,7 @@ solve_day21_part1 <- function(data_monkey) {
             }
         }
         
-        for (k in 1:nb) {
+        for (k in seq_len(nb)) {
             if (data_monkey$not_done[k] && class(try(eval(parse(text = data_monkey$formule[k])), silent = TRUE)) != "try-error") {
                 data_monkey$res[k] <- eval(parse(text = data_monkey$formule[k]))
                 data_monkey$is.nb[k] <- TRUE

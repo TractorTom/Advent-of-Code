@@ -17,8 +17,8 @@ forest_example <- readLines("./2022/Day08/forest_example.txt")
 complete_matrix <- function(matrix_forest) {
     n <- nrow(matrix_forest)
     mat <- matrix(FALSE, nrow = n, ncol = n)
-    mat[1:n, c(1, n)] <- TRUE
-    mat[c(1, n), 1:n] <- TRUE
+    mat[seq_len(n), c(1, n)] <- TRUE
+    mat[c(1, n), seq_len(n)] <- TRUE
 
     for (i in 2:(n - 1)) {
         # horizontal vers droite
@@ -103,12 +103,16 @@ get_scenic_score <- function(matrix_forest, x, y) {
 
 get_best_view <- function(matrix_forest) {
     n <- nrow(matrix_forest)
-    sapply(1:n, FUN = function(x1) {
-        sapply(1:n,
-            FUN = get_scenic_score,
-            matrix_forest = matrix_forest, x = x1
-        )
-    }) |> max()
+    vapply(
+        X = seq_len(n),
+        FUN = function(x1) {
+            vapply(X = seq_len(n),
+                   FUN = get_scenic_score,
+                   matrix_forest = matrix_forest, x = x1,
+                   FUN.VALUE = numeric(1))
+        },
+        FUN.VALUE = numeric(n)
+    ) |> max()
 }
 
 

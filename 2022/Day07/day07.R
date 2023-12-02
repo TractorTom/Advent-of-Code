@@ -70,7 +70,8 @@ solve_day07_part1 <- function(data_command) {
 
 solve_day07_part2 <- function(data_command) {
     all_size <- get_all_size(data_command)
-    return(all_size[all_size >= (30000000 - (70000000 - max(all_size)))] |> min())
+    return(all_size[all_size >= (30000000 - (70000000 - max(all_size)))] |>
+               min())
 }
 
 

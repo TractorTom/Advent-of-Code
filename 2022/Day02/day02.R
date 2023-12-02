@@ -6,13 +6,15 @@
 ##############
 
 
-# Import data -------------------------------------------------------------
+# Import data ------------------------------------------------------------------
 
 result_game <- read.table("./2022/Day02/game_rock_paper_scissors.txt")
-result_game_example <- read.table("./2022/Day02/game_rock_paper_scissors_example.txt")
+result_game_example <- read.table(
+    file = "./2022/Day02/game_rock_paper_scissors_example.txt"
+)
 
 
-# Déclaration fonction ----------------------------------------------------
+# Déclaration fonction ---------------------------------------------------------
 
 hands <- c("Pierre", "Papier", "Ciseaux")
 
@@ -67,14 +69,19 @@ solve_day02_part2 <- function(data_game) {
             y = translate_table[, c("abc_encryption", "score_result")],
             by.x = "elf_choice", by.y = "abc_encryption"
         ) |>
-        dplyr::rename(score_hand = score_result.y, score_result = score_result.x) |>
-        dplyr::mutate(score = score_result * 3 + (score_hand + score_result - 1) %% 3 + 1) |>
+        dplyr::rename(
+            score_hand = score_result.y,
+            score_result = score_result.x
+        ) |>
+        dplyr::mutate(score = score_result * 3
+                      + (score_hand + score_result - 1) %% 3
+                      + 1) |>
         dplyr::pull(score) |>
         sum()
 }
 
 
-# Execution ---------------------------------------------------------------
+# Execution --------------------------------------------------------------------
 
 solve_day02_part1(result_game_example)
 solve_day02_part1(result_game)
