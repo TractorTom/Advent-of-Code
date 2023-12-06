@@ -47,16 +47,16 @@ solve_day02_part1 <- function(data_games) {
     summarized_bags <- init(data_games)
     return(
         sum(seq_along(data_games)
-            * vapply(X = summarized_bags, 
-                     FUN = get_sum_id, 
+            * vapply(X = summarized_bags,
+                     FUN = get_sum_id,
                      FUN.VALUE = logical(1)))
     )
 }
 
 solve_day02_part2 <- function(data_games) {
     summarized_bags <- init(data_games)
-    return(sum(vapply(X = summarized_bags, 
-                      FUN = get_power, 
+    return(sum(vapply(X = summarized_bags,
+                      FUN = get_power,
                       FUN.VALUE = numeric(1))))
 }
 

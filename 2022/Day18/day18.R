@@ -9,7 +9,10 @@
 # Import data ------------------------------------------------------------------
 
 lava_droplet <- read.table("./2022/Day18/lava_droplet.txt", sep = ",")
-lava_droplet_example <- read.table("./2022/Day18/lava_droplet_example.txt", sep = ",")
+lava_droplet_example <- read.table(
+    file = "./2022/Day18/lava_droplet_example.txt",
+    sep = ","
+)
 
 
 # Déclaration fonction ---------------------------------------------------------
@@ -52,7 +55,7 @@ init_cartography <- function(data_droplet) {
 color_space <- function(starting, val, map) {
     pile <- list(starting)
     while (length(pile) > 0) {
-        # print(pile)
+
         pos <- pile[[1]]
         pile <- pile[-1]
 

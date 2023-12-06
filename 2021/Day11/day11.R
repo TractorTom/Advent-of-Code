@@ -12,10 +12,12 @@ energy_level_example <- readLines("./2021/Day11/energy_level_example.txt")
 
 ###### TRAITEMENT DATA ######
 
-energy_level_example <- matrix(as.numeric(do.call(rbind, strsplit(energy_level_example, ""))),
+energy_level_example <- matrix(
+    data = as.numeric(do.call(rbind, strsplit(energy_level_example, ""))),
     nrow = length(energy_level_example)
 )
-energy_level <- matrix(as.numeric(do.call(rbind, strsplit(energy_level, ""))),
+energy_level <- matrix(
+    data = as.numeric(do.call(rbind, strsplit(energy_level, ""))),
     nrow = length(energy_level)
 )
 
@@ -44,7 +46,10 @@ flashes <- function(dataEnergy) {
                 if (dataEnergy[x, y] > 9) {
                     voisins <- compute_voisins(x, y)
                     for (voisin in voisins) {
-                        if (after_flash[voisin[1], voisin[2]] != 0) after_flash[voisin[1], voisin[2]] <- after_flash[voisin[1], voisin[2]] + 1
+                        if (after_flash[voisin[1], voisin[2]] != 0) {
+                            val <- after_flash[voisin[1], voisin[2]]
+                            after_flash[voisin[1], voisin[2]] <- val + 1
+                        }
                     }
                     after_flash[x, y] <- 0
                 }
@@ -68,7 +73,6 @@ solve_day11_part1 <- function(dataEnergy, n = 100) {
 }
 
 solve_day11_part2 <- function(dataEnergy) {
-    nbr_0 <- 0
     k <- 0
     while (any(dataEnergy != 0)) {
         dataEnergy <- flashes(dataEnergy)

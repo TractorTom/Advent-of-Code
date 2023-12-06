@@ -23,7 +23,8 @@ decale_bas <- function(playground, rock, coord) {
 
     for (y in seq_len(nrow(rock))) {
         for (x in seq_len(ncol(rock))) {
-            if (rock[y, x] == "#" && playground[y + coord[1] - 1 - 1, x + coord[2] - 1] == "#") {
+            if (rock[y, x] == "#"
+                && playground[y + coord[1] - 1 - 1, x + coord[2] - 1] == "#") {
                 return(FALSE)
             }
         }
@@ -40,7 +41,8 @@ decale_gauche <- function(playground, rock, coord) {
 
     for (y in seq_len(nrow(rock))) {
         for (x in seq_len(ncol(rock))) {
-            if (rock[y, x] == "#" && playground[y + coord[1] - 1, x + coord[2] - 1 - 1] == "#") {
+            if (rock[y, x] == "#"
+                && playground[y + coord[1] - 1, x + coord[2] - 1 - 1] == "#") {
                 return(FALSE)
             }
         }
@@ -57,7 +59,8 @@ decale_droite <- function(playground, rock, coord) {
 
     for (y in seq_len(nrow(rock))) {
         for (x in seq_len(ncol(rock))) {
-            if (rock[y, x] == "#" && playground[y + coord[1] - 1, x + coord[2] - 1 + 1] == "#") {
+            if (rock[y, x] == "#"
+                && playground[y + coord[1] - 1, x + coord[2] - 1 + 1] == "#") {
                 return(FALSE)
             }
         }
@@ -71,7 +74,8 @@ get_height <- function(data_jet, tot_rock) {
     kinds_rock <- list(
         matrix(c("#", "#", "#", "#"), nrow = 1),
         matrix(c(".", "#", ".", "#", "#", "#", ".", "#", "."), nrow = 3),
-        matrix(c("#", "#", "#", ".", ".", "#", ".", ".", "#"), nrow = 3, byrow = TRUE),
+        matrix(c("#", "#", "#", ".", ".", "#", ".", ".", "#"), nrow = 3,
+               byrow = TRUE),
         matrix(c("#", "#", "#", "#"), ncol = 1),
         matrix(c("#", "#", "#", "#"), ncol = 2)
     )
@@ -89,13 +93,13 @@ get_height <- function(data_jet, tot_rock) {
 
             # Décalage horizontal
             index <- index + 1
-            sbl <- substr(data_jet, (index %% nchar(data_jet)) + 1, (index %% nchar(data_jet)) + 1)
+            sbl <- substr(x = data_jet,
+                          start = (index %% nchar(data_jet)) + 1,
+                          stop = (index %% nchar(data_jet)) + 1)
 
             if (sbl == "<" && decale_gauche(playground, rock, coord)) {
-                # print("ici")
                 coord[2] <- coord[2] - 1
             } else if (sbl == ">" && decale_droite(playground, rock, coord)) {
-                # print("là")
                 coord[2] <- coord[2] + 1
             }
         }
@@ -120,7 +124,8 @@ get_freq <- function(data_jet) {
     kinds_rock <- list(
         matrix(c("#", "#", "#", "#"), nrow = 1),
         matrix(c(".", "#", ".", "#", "#", "#", ".", "#", "."), nrow = 3),
-        matrix(c("#", "#", "#", ".", ".", "#", ".", ".", "#"), nrow = 3, byrow = TRUE),
+        matrix(c("#", "#", "#", ".", ".", "#", ".", ".", "#"), nrow = 3,
+               byrow = TRUE),
         matrix(c("#", "#", "#", "#"), ncol = 1),
         matrix(c("#", "#", "#", "#"), ncol = 2)
     )
@@ -140,13 +145,13 @@ get_freq <- function(data_jet) {
 
             # Décalage horizontal
             index <- index + 1
-            sbl <- substr(data_jet, (index %% nchar(data_jet)) + 1, (index %% nchar(data_jet)) + 1)
+            sbl <- substr(x = data_jet,
+                          start = (index %% nchar(data_jet)) + 1,
+                          stop = (index %% nchar(data_jet)) + 1)
 
             if (sbl == "<" && decale_gauche(playground, rock, coord)) {
-                # print("ici")
                 coord[2] <- coord[2] - 1
             } else if (sbl == ">" && decale_droite(playground, rock, coord)) {
-                # print("là")
                 coord[2] <- coord[2] + 1
             }
         }
@@ -175,12 +180,16 @@ get_freq <- function(data_jet) {
             if (nb_rock - last == periode) {
                 return(c(init, periode))
             } else {
-                historique[rock_i, index_i, ] <- c(nb_rock - last, nb_rock, last)
+                historique[rock_i, index_i, ] <-
+                    c(nb_rock - last, nb_rock, last)
             }
         }
 
         if (nrow(playground) - height < 10) {
-            playground <- rbind(playground, matrix(".", ncol = 7, nrow = nrow(playground)))
+            playground <- rbind(
+                playground,
+                matrix(".", ncol = 7, nrow = nrow(playground))
+            )
         }
     }
 }
@@ -195,7 +204,10 @@ get_height2 <- function(data_jet, val) {
 
     height_init <- get_height(data_jet, init)
     height_periode <- get_height(data_jet, init + periode) - height_init
-    heigh_end <- get_height(data_jet, init + periode + reste) - height_init - height_periode
+    heigh_end <- get_height(
+        data_jet = data_jet,
+        tot_rock = init + periode + reste
+    ) - height_init - height_periode
 
     return(height_init + height_periode * nb_periode + heigh_end)
 }
