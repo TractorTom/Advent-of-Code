@@ -45,7 +45,7 @@ compute_rules <- function(data_monkey) {
     for (monkey_k in seq_len(nb_monkey)) {
         index <- (monkey_k - 1) * 7
         item <- c(
-            item, 
+            item,
             list(substr(data_monkey[index + 2], 19, 50) |>
                      strsplit(", ") |>
                      unlist() |>
@@ -55,9 +55,19 @@ compute_rules <- function(data_monkey) {
             op = substr(data_monkey[index + 3], 24, 24),
             val = substr(data_monkey[index + 3], 26, 50)
         )))
-        test <- c(test, substr(data_monkey[index + 4], 22, 50) |> as.numeric())
-        test_true <- c(test_true, substr(data_monkey[index + 5], 30, 50) |> as.numeric() + 1)
-        test_false <- c(test_false, substr(data_monkey[index + 6], 31, 50) |> as.numeric() + 1)
+        test <- c(
+            test,
+            substr(data_monkey[index + 4], 22, 50) |>
+                as.numeric()
+        )
+        test_true <- c(
+            test_true,
+            substr(data_monkey[index + 5], 30, 50) |> as.numeric() + 1
+        )
+        test_false <- c(
+            test_false,
+            substr(data_monkey[index + 6], 31, 50) |> as.numeric() + 1
+        )
     }
 
     return(list(
@@ -75,7 +85,8 @@ compute_list_item <- function(data_info) {
     for (k in seq_len(data_info$nb_monkey)) {
         items <- cbind(items, items$val %% data_info$test_val[k])
     }
-    colnames(items) <- c("id", "val", paste0("test", seq_len(data_info$nb_monkey)))
+    colnames(items) <- c("id", "val",
+                         paste0("test", seq_len(data_info$nb_monkey)))
     items <- as.matrix(items |> dplyr::select(-c(id, val)))
     return(items)
 }
@@ -90,16 +101,22 @@ solve_day11_part1 <- function(data_monkey) {
     while (round < 20) {
         for (k in seq_len(info$nb_monkey)) {
             if (!is.null(info$item[[k]])) {
-                index <- (k - 1) * 7
+
                 count_p[k] <- count_p[k] + length(info$item[[k]])
 
                 for (item in info$item[[k]]) {
                     wl <- info$op[[k]](item) %/% 3
 
                     if (wl %% info$test_val[k] == 0) {
-                        info$item[[info$true[k]]] <- c(info$item[[info$true[k]]], wl)
+                        info$item[[info$true[k]]] <- c(
+                            info$item[[info$true[k]]],
+                            wl
+                        )
                     } else {
-                        info$item[[info$false[k]]] <- c(info$item[[info$false[k]]], wl)
+                        info$item[[info$false[k]]] <- c(
+                            info$item[[info$false[k]]],
+                            wl
+                        )
                     }
                 }
                 info$item[k] <- list(NULL)
@@ -139,12 +156,16 @@ solve_day11_part2 <- function(data_monkey) {
                 ) |> t()
 
                 for (item in info$item[[k]]) {
-                    # wl <- op(item)# %/% 3
-
                     if (items[item, k] == 0) {
-                        info$item[[info$true[k]]] <- c(info$item[[info$true[k]]], item)
+                        info$item[[info$true[k]]] <- c(
+                            info$item[[info$true[k]]],
+                            item
+                        )
                     } else {
-                        info$item[[info$false[k]]] <- c(info$item[[info$false[k]]], item)
+                        info$item[[info$false[k]]] <- c(
+                            info$item[[info$false[k]]],
+                            item
+                        )
                     }
                 }
                 info$item[k] <- list(NULL)

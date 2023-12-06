@@ -42,24 +42,32 @@ get_dir_content <- function(extr_command) {
 }
 
 count_repository_size <- function(dir_content) {
-    all_size <- sapply(dir_content, FUN = function(instr) {
-        first_part <- (strsplit(instr, " ") |> unlist())[1]
-        if (!first_part %in% c("$", "dir")) {
-            return(as.numeric(first_part))
-        }
-        return(0)
-    })
-
+    all_size <- vapply(
+        X = dir_content, 
+        FUN = function(instr) {
+            first_part <- (strsplit(instr, " ") |> unlist())[1]
+            if (!first_part %in% c("$", "dir")) {
+                return(as.numeric(first_part))
+            }
+            return(0)
+        }, 
+        FUN.VALUE = numeric(1)
+    )
+    
     return(sum(all_size, na.rm = TRUE))
 }
 
 get_all_size <- function(data_command) {
     all_cd <- get_index_cd(data_command)
-    all_size <- sapply(all_cd, FUN = function(i) {
-        data_command[seq(i, length(data_command))] |>
-            get_dir_content() |>
-            count_repository_size()
-    })
+    all_size <- vapply(
+        X = all_cd, 
+        FUN = function(i) {
+            data_command[seq(i, length(data_command))] |>
+                get_dir_content() |>
+                count_repository_size()
+        }, 
+        FUN.VALUE = numeric(1)
+    )
     return(all_size)
 }
 
