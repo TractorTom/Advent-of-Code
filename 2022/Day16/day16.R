@@ -32,7 +32,11 @@ get_neighborhood <- function(data_valves) {
     val <- data_valves$num
     names(val) <- data_valves$origin
 
-    neighborhood <- matrix(Inf, nrow = nrow(data_valves), ncol = nrow(data_valves))
+    neighborhood <- matrix(
+        data = Inf,
+        nrow = nrow(data_valves),
+        ncol = nrow(data_valves)
+    )
     colnames(neighborhood) <- data_valves$origin
     rownames(neighborhood) <- data_valves$origin
 
@@ -62,7 +66,10 @@ get_distance <- function(neighborhood) {
     for (step in seq_len(nrow(distance))) {
         for (valve in seq_len(nrow(distance))) {
             neighbors <- get_neighbors(valve, neighborhood)
-            distance[valve, ] <- c(list(distance[valve, ]), lapply(neighbors, \(x) 1 + distance[, x])) |>
+            distance[valve, ] <- c(
+                list(distance[valve, ]),
+                lapply(neighbors, \(x) 1 + distance[, x])
+            ) |>
                 purrr::reduce(.f = pmin)
         }
     }
@@ -102,8 +109,22 @@ human_and_elephant <- function(flows, distance, start, closed, time) {
     score <- 0
 
     for (k in seq_len(ncol(all_perm))) {
-        score_1 <- one_person(flows, distance, start, 0, all_perm[, k], time)
-        score_2 <- one_person(flows, distance, start, 0, closed[!closed %in% all_perm[, k]], time)
+        score_1 <- one_person(
+            flows = flows,
+            distance = distance,
+            pos = start,
+            score = 0,
+            closed = all_perm[, k],
+            time = time
+        )
+        score_2 <- one_person(
+            flows = flows,
+            distance = distance,
+            pos = start,
+            score = 0,
+            closed = closed[!closed %in% all_perm[, k]],
+            time = time
+        )
 
         score <- max(score, score_1 + score_2)
     }

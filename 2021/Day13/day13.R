@@ -13,15 +13,16 @@ page1_example <- readLines("./2021/Day13/instructions_example.txt")
 ###### TRAITEMENT dataPage1######
 
 traitement <- function(dataPage1) {
-    dim_x <- 0
-    dim_y <- 0
     output_table <- NULL
 
     index <- 1
     line <- dataPage1[index]
 
     while (line != "") {
-        output_table <- rbind(output_table, 1 + as.numeric(unlist(strsplit(line, ","))))
+        output_table <- rbind(
+            output_table,
+            1 + as.numeric(unlist(strsplit(line, ",")))
+        )
         index <- index + 1
         line <- dataPage1[index]
     }
@@ -29,46 +30,56 @@ traitement <- function(dataPage1) {
 
     output_fold <- dataPage1[index:length(dataPage1)]
 
-    output_mat <- matrix(".", nrow = max(output_table[, 2]), ncol = max(output_table[, 1]))
+    output_mat <- matrix(
+        data = ".",
+        nrow = max(output_table[, 2]),
+        ncol = max(output_table[, 1])
+    )
     for (index_b in seq_len(nrow(output_table))) {
         output_mat[output_table[index_b, 2], output_table[index_b, 1]] <- "*"
     }
 
 
-    output_list <- list(table = output_table, matrice = output_mat, fold = output_fold)
+    output_list <- list(
+        table = output_table,
+        matrice = output_mat,
+        fold = output_fold
+    )
     return(output_list)
 }
 
 page1 <- traitement(page1)
 page1_example <- traitement(page1_example)
 
+
 ###### DECLARATION FONCTION ######
 
 fold <- function(table, instruction) {
     name_dim <- substr(instruction, 12, 12)
-    val <- as.numeric(substr(instruction, 14, nchar(instruction))) + 1 #+ 1 car on commence à (1, 1) et pas à (0, 0)
+    val <- as.numeric(substr(instruction, 14, nchar(instruction))) + 1
+    #+ 1 car on commence à (1, 1) et pas à (0, 0)
 
     new_table <- table
 
     if (name_dim == "x") {
-        for (index_x in (val + 1):(dim(table)[2])) {
-            for (index_y in 1:(dim(table)[1])) {
-                if (table[index_y, 2 * val - index_x] == ".") {
-                    new_table[index_y, 2 * val - index_x] <- table[index_y, index_x]
+        for (id_x in (val + 1):(dim(table)[2])) {
+            for (id_y in 1:(dim(table)[1])) {
+                if (table[id_y, 2 * val - id_x] == ".") {
+                    new_table[id_y, 2 * val - id_x] <- table[id_y, id_x]
                 }
-                if (table[index_y, val] != ".") {
+                if (table[id_y, val] != ".") {
                     stop("il y a une croix sur une ligne")
                 }
             }
         }
         new_table <- new_table[, 1:(val - 1)]
     } else if (name_dim == "y") {
-        for (index_y in (val + 1):(dim(table)[1])) {
-            for (index_x in 1:(dim(table)[2])) {
-                if (table[2 * val - index_y, index_x] == ".") {
-                    new_table[2 * val - index_y, index_x] <- table[index_y, index_x]
+        for (id_y in (val + 1):(dim(table)[1])) {
+            for (id_x in 1:(dim(table)[2])) {
+                if (table[2 * val - id_y, id_x] == ".") {
+                    new_table[2 * val - id_y, id_x] <- table[id_y, id_x]
                 }
-                if (table[val, index_x] != ".") {
+                if (table[val, id_x] != ".") {
                     stop("il y a une croix sur une ligne")
                 }
             }

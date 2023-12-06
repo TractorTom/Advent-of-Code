@@ -7,13 +7,28 @@
 
 ###### IMPORT DATA ######
 
-diagnostic_report_example <- readLines("./2021/Day03/diagnostic_report_example.txt")
+diagnostic_report_example <- readLines(
+    con = "./2021/Day03/diagnostic_report_example.txt"
+)
 diagnostic_report <- readLines("./2021/Day03/diagnostic_report.txt")
 
 ###### TRAITEMENT DATA ######
 
-diagnostic_report_example <- t(matrix(as.numeric(do.call(c, strsplit(diagnostic_report_example, split = ""))), ncol = length(diagnostic_report_example)))
-diagnostic_report <- t(matrix(as.numeric(do.call(c, strsplit(diagnostic_report, split = ""))), ncol = length(diagnostic_report)))
+diagnostic_report_example <- t(matrix(
+    data = as.numeric(do.call(
+        what = c,
+        args = strsplit(diagnostic_report_example, split = "")
+    )),
+    ncol = length(diagnostic_report_example)
+))
+
+diagnostic_report <- t(matrix(
+    data = as.numeric(do.call(
+        what = c,
+        args = strsplit(diagnostic_report, split = "")
+    )),
+    ncol = length(diagnostic_report)
+))
 
 ###### DECLARATION FONCTION ######
 

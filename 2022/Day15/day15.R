@@ -57,9 +57,11 @@ solve_day15_part1 <- function(data_beacons, line) {
     v <- logical(maxi - mini + 1)
 
     for (k in seq_len(nrow(data_beacons))) {
-        depassement <- data_beacons[k, ]$distance - abs(data_beacons[k, ]$sy - line)
+        dist <- data_beacons[k, ]$distance
+        depassement <- dist - abs(data_beacons[k, ]$sy - line)
         if (depassement >= 0) {
-            v[seq(-depassement, depassement) + data_beacons[k, ]$sx - mini + 1] <- TRUE
+            sx <- data_beacons[k, ]$sx
+            v[seq(-depassement, depassement) + sx - mini + 1] <- TRUE
         }
     }
 
@@ -70,26 +72,32 @@ solve_day15_part1 <- function(data_beacons, line) {
 solve_day15_part2 <- function(data_beacons, borne) {
     data_beacons <- data_beacons |> traitement()
     fr_temp <- data.frame()
-    index_sensor <- 1
+    idx_sensor <- 1
 
-    while (index_sensor <= nrow(data_beacons) && any(dim(fr_temp) == 0)) {
-        fr <- get_one_frontier(data_beacons[index_sensor, ])
-        fr_temp <- fr |> subset(x >= 0 && x <= borne && y >= 0 && y <= borne)
-        index_sensor2 <- 1
+    while (idx_sensor <= nrow(data_beacons) && any(dim(fr_temp) == 0)) {
+        fr <- get_one_frontier(data_beacons[idx_sensor, ])
+        fr_temp <- fr |> subset((x >= 0)
+                                & (x <= borne)
+                                & (y >= 0)
+                                & (y <= borne))
+        idx_sensor2 <- 1
 
-        while (index_sensor2 <= nrow(data_beacons) && all(dim(fr_temp) > 0)) {
-            if (index_sensor2 != index_sensor) {
-                distance_i <- data_beacons[index_sensor2, "distance"]
+        while (idx_sensor2 <= nrow(data_beacons) && all(dim(fr_temp) > 0)) {
+            if (idx_sensor2 != idx_sensor) {
+                dist_i <- data_beacons[idx_sensor2, "distance"]
                 fr_temp <- fr_temp |>
-                    subset((abs(x - data_beacons[index_sensor2, ]$sx) + abs(y - data_beacons[index_sensor2, ]$sy)) > distance_i)
+                    subset(
+                        (abs(x - data_beacons[idx_sensor2, ]$sx) +
+                             abs(y - data_beacons[idx_sensor2, ]$sy)) > dist_i
+                    )
             }
-            index_sensor2 <- index_sensor2 + 1
+            idx_sensor2 <- idx_sensor2 + 1
         }
 
         if (all(dim(fr_temp) != 0)) {
             return(4000000 * fr_temp$x + fr_temp$y)
         }
-        index_sensor <- index_sensor + 1
+        idx_sensor <- idx_sensor + 1
     }
     stop("Il n'y a pas de solution.")
 }

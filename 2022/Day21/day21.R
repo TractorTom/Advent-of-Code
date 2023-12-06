@@ -156,7 +156,8 @@ solve_day21_part1 <- function(data_monkey) {
         }
         
         for (k in seq_len(nb)) {
-            if (data_monkey$not_done[k] && class(try(eval(parse(text = data_monkey$formule[k])), silent = TRUE)) != "try-error") {
+            if (data_monkey$not_done[k]
+                && class(try(eval(parse(text = data_monkey$formule[k])), silent = TRUE)) != "try-error") {
                 data_monkey$res[k] <- eval(parse(text = data_monkey$formule[k]))
                 data_monkey$is.nb[k] <- TRUE
             }
@@ -170,12 +171,12 @@ solve_day21_part2 <- function(data_monkey) {
     data_monkey <- data_monkey |> traitement_p2()
     
     while (!data_monkey$is.nb[data_monkey$nom == "root"]) {
-        monkey_to_do <- data_monkey$nom[data_monkey$to_do && data_monkey$is.nb]
+        monkey_to_do <- data_monkey$nom[data_monkey$to_do & data_monkey$is.nb]
         for (monk in monkey_to_do) {
             data_monkey$is.nb_left[data_monkey$left == monk] <- TRUE
             data_monkey$is.nb_right[data_monkey$right == monk] <- TRUE
         }
-        data_monkey$to_do[data_monkey$to_do && data_monkey$is.nb] <- FALSE
+        data_monkey$to_do[data_monkey$to_do & data_monkey$is.nb] <- FALSE
         
         index_to_compute <- which(!data_monkey$is.nb)
         for (index_monk in index_to_compute) {

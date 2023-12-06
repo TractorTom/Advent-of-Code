@@ -28,7 +28,7 @@ solve_day02_part2 <- function(dataPlan) {
 
     list_index_forward <- (seq_len(nrow(dataPlan)))[dataPlan$V1 == "forward"]
 
-    for (k in seq_len(list_index_forward)) {
+    for (k in seq_along(list_index_forward)) {
         index <- list_index_forward[k]
         if (index != 1) {
             if (k == 1) {

@@ -12,7 +12,11 @@ heightmap_example <- readLines("./2021/Day09/heightmap_example.txt")
 
 ###### TRAITEMENT DATA ######
 
-heightmap_example <- matrix(as.numeric(do.call(rbind, strsplit(heightmap_example, ""))),
+heightmap_example <- matrix(
+    data = as.numeric(do.call(
+        what = rbind,
+        args = strsplit(heightmap_example, "")
+    )),
     nrow = length(heightmap_example)
 )
 heightmap <- matrix(as.numeric(do.call(rbind, strsplit(heightmap, ""))),
@@ -66,13 +70,16 @@ find_low_points <- function(dataHeightmap) {
 
 solve_day09_part1 <- function(dataHeightmap) {
     low_points <- find_low_points(dataHeightmap)
-    somme <- do.call(sum, lapply(low_points, FUN = function(index) dataHeightmap[index[1], index[2]]))
+    somme <- do.call(sum, lapply(
+        X = low_points,
+        FUN = function(index) dataHeightmap[index[1], index[2]]
+    ))
     return(length(low_points) + somme)
 }
 
-compute_bassin <- function(dataHeightmap, x, y) {
-    dim_x <- dim(dataHeightmap)[1]
-    dim_y <- dim(dataHeightmap)[2]
+compute_bassin <- function(map, x, y) {
+    dim_x <- dim(map)[1]
+    dim_y <- dim(map)[2]
     bassin_point <- list()
     new_point <- list(c(x, y))
 
@@ -81,13 +88,15 @@ compute_bassin <- function(dataHeightmap, x, y) {
         temp <- new_point
         new_point <- list()
 
-        for (point in temp) {
-            list_voisin <- compute_voisins(point[1], point[2], dim_x, dim_y)
+        for (pt in temp) {
+            list_voisin <- compute_voisins(pt[1], pt[2], dim_x, dim_y)
             for (voisin in list_voisin) {
-                if (dataHeightmap[voisin[1], voisin[2]] != 9 &&
-                    dataHeightmap[voisin[1], voisin[2]] > dataHeightmap[point[1], point[2]] &&
+                cond <- map[voisin[1], voisin[2]] != 9 &&
+                    map[voisin[1], voisin[2]] > map[pt[1], pt[2]] &&
                     (!list(voisin) %in% bassin_point) &&
-                    (!list(voisin) %in% new_point)) {
+                    (!list(voisin) %in% new_point)
+
+                if (cond) {
                     new_point <- c(new_point, list(voisin))
                 }
             }
@@ -103,7 +112,8 @@ solve_day09_part2 <- function(dataHeightmap) {
     for (low_point in low_points) {
         x <- low_point[1]
         y <- low_point[2]
-        size_all_bassin <- c(size_all_bassin, compute_bassin(dataHeightmap, x, y))
+        size_all_bassin <- c(size_all_bassin,
+                             compute_bassin(dataHeightmap, x, y))
     }
 
     big_bassins <- sort(size_all_bassin, decreasing = TRUE)

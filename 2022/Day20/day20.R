@@ -10,7 +10,9 @@ options(digits = 22)
 # Import data ------------------------------------------------------------------
 
 coordinates <- read.table("./2022/Day20/grove's_coordinates.txt")
-coordinates_example <- read.table("./2022/Day20/grove's_coordinates_example.txt")
+coordinates_example <- read.table(
+    file = "./2022/Day20/grove's_coordinates_example.txt"
+)
 
 
 # Déclaration fonction ---------------------------------------------------------
@@ -57,7 +59,9 @@ get_grove_coordinate <- function(data_coordinates, index_suivant) {
         ind <- index_suivant[ind]
     }
 
-    return(mixed_file[((1000 - 1) %% nb + 1)] + mixed_file[((2000 - 1) %% nb + 1)] + mixed_file[((3000 - 1) %% nb + 1)])
+    return(mixed_file[((1000 - 1) %% nb + 1)]
+           + mixed_file[((2000 - 1) %% nb + 1)]
+           + mixed_file[((3000 - 1) %% nb + 1)])
 }
 
 solve_day20_part1 <- function(data_coordinates) {

@@ -7,19 +7,22 @@
 
 ###### IMPORT DATA ######
 
-hydrothermal_vents_example <- readLines("./2021/Day05/hydrothermal_vents_example.txt")
+hydrothermal_vents_example <- readLines(
+    con = "./2021/Day05/hydrothermal_vents_example.txt"
+)
 hydrothermal_vents <- readLines("./2021/Day05/hydrothermal_vents.txt")
+
 
 ###### DECLARATION FONCTIONS ######
 
-createEmptyMap <- function(dataVents) {
+create_empty_map <- function(data_vents) {
     min_x <- 0
     min_y <- 0
     max_x <- 0
     max_y <- 0
 
-    for (k in seq_along(dataVents)) {
-        direction <- strsplit(dataVents[k], " -> ")[[1]]
+    for (k in seq_along(data_vents)) {
+        direction <- strsplit(data_vents[k], " -> ")[[1]]
         coord_1 <- as.numeric(strsplit(direction[1], ",")[[1]])
         coord_2 <- as.numeric(strsplit(direction[2], ",")[[1]])
 
@@ -36,11 +39,11 @@ createEmptyMap <- function(dataVents) {
     ))
 }
 
-solve_day05_part1 <- function(dataVents) {
-    map <- createEmptyMap(dataVents)
+solve_day05_part1 <- function(data_vents) {
+    map <- create_empty_map(data_vents)
 
-    for (k in seq_along(dataVents)) {
-        direction <- strsplit(dataVents[k], " -> ")[[1]]
+    for (k in seq_along(data_vents)) {
+        direction <- strsplit(data_vents[k], " -> ")[[1]]
         coord_1 <- as.numeric(strsplit(direction[1], ",")[[1]])
         coord_2 <- as.numeric(strsplit(direction[2], ",")[[1]])
 
@@ -55,11 +58,11 @@ solve_day05_part1 <- function(dataVents) {
     return(sum(map$map > 1))
 }
 
-solve_day05_part2 <- function(dataVents) {
-    map <- createEmptyMap(dataVents)
+solve_day05_part2 <- function(data_vents) {
+    map <- create_empty_map(data_vents)
 
-    for (k in seq_along(dataVents)) {
-        direction <- strsplit(dataVents[k], " -> ")[[1]]
+    for (k in seq_along(data_vents)) {
+        direction <- strsplit(data_vents[k], " -> ")[[1]]
         coord_1 <- as.numeric(strsplit(direction[1], ",")[[1]])
         coord_2 <- as.numeric(strsplit(direction[2], ",")[[1]])
 
@@ -87,8 +90,8 @@ solve_day05_part2 <- function(dataVents) {
 
 ###### EXECUTION ######
 
-solve_day05_part1(dataVents = hydrothermal_vents_example)
-solve_day05_part1(dataVents = hydrothermal_vents)
+solve_day05_part1(data_vents = hydrothermal_vents_example)
+solve_day05_part1(data_vents = hydrothermal_vents)
 
-solve_day05_part2(dataVents = hydrothermal_vents_example)
-solve_day05_part2(dataVents = hydrothermal_vents)
+solve_day05_part2(data_vents = hydrothermal_vents_example)
+solve_day05_part2(data_vents = hydrothermal_vents)

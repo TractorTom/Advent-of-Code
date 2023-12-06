@@ -18,8 +18,8 @@ count_increases <- function(serie) {
 
 compute_sliding_window <- function(serie) {
     return(
-        serie[-c(length(serie), length(serie) - 1)] + 
-            serie[-c(length(serie), 1)] + 
+        serie[-c(length(serie), length(serie) - 1)] +
+            serie[-c(length(serie), 1)] +
             serie[-(1:2)]
     )
 }

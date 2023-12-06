@@ -33,7 +33,7 @@ traitement <- function(dataBoard) {
         }
     }
 
-    board <- dataBoard[index_seq_along(dataBoard)] %>%
+    board <- dataBoard[index_1:length(dataBoard)] %>%
         strsplit(split = " ") %>%
         lapply(FUN = as.numeric) %>%
         lapply(FUN = function(line) line[!is.na(line)]) %>%
@@ -73,7 +73,7 @@ solve_day04_part1 <- function(listBoard) {
             }
         }
     }
-    stop("L'algorithme aurai dû finir.")
+    stop("L'algorithme aurait dû finir.")
 }
 
 solve_day04_part2 <- function(listBoard) {
@@ -83,8 +83,8 @@ solve_day04_part2 <- function(listBoard) {
     k <- 1
     while (length(index) > 1) {
         num <- listBoard$num[k]
-        indexTemp <- index
-        for (i in indexTemp) {
+        index_temp <- index
+        for (i in index_temp) {
             board <- completedBoard[[i]]
             completedBoard[[i]][board == num] <- NA
 
