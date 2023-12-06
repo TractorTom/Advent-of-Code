@@ -37,8 +37,9 @@ solve_day10_part1 <- function(data_cpu) {
     data_cpu |>
         compute_value() |>
         dplyr::mutate(
-            cond1 = cycle == 20 | (cycle - 20) %% 40 == 0, 
-            cond2 = (instr == "addx") & ((cycle - 1) == 20 | (cycle - 20 - 1) %% 40 == 0), 
+            cond1 = cycle == 20 | (cycle - 20) %% 40 == 0,
+            cond2 = (instr == "addx") &
+                ((cycle - 1) == 20 | (cycle - 20 - 1) %% 40 == 0),
             strength = dplyr::case_when(
                 cond1 ~ cycle * instant_value,
                 cond2 ~ (cycle - 1) * instant_value,
@@ -58,7 +59,7 @@ solve_day10_part2 <- function(data_cpu) {
             index_pixel = ((cycle - 1) %% 40 + 1),
             index_pixel_1 = ((cycle - 1 - 1) %% 40 + 1),
             crt_pixel = dplyr::case_when(
-                index_pixel >= min_sprite && index_pixel <= max_sprite ~ "#",
+                index_pixel >= min_sprite & index_pixel <= max_sprite ~ "#",
                 TRUE ~ "."
             ),
             crt_pixel = dplyr::case_when(
