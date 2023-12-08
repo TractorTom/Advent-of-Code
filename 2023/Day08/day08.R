@@ -36,7 +36,7 @@ pgcd <- function(a, b) {
         return(pgcd(b, a %% b))
     }
 }
-ppcm <- function(a, b) a * b / (pgcd(a, b))
+ppcm <- function(a, b) a * b / pgcd(a, b)
 
 get_cycle <- function(starting, data_networks) {
 
