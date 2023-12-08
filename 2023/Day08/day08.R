@@ -36,9 +36,9 @@ pgcd <- function(a, b) {
         return(pgcd(b, a %% b))
     }
 }
-ppcm <- function(a, b) a * b / (pgcd(a, b))
+ppcm <- function(a, b) a * b / pgcd(a, b)
 
-get_cycle <- function(starting, data_networks) {
+get_cycle <- function(start, data_networks) {
 
     instructions <- data_networks$instructions
     map <- data_networks$map
@@ -48,7 +48,7 @@ get_cycle <- function(starting, data_networks) {
     v_index <- NULL
 
     step <- 0
-    pos <- starting
+    pos <- start
     last_step <- 0
     index <- 1
 
