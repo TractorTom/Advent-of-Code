@@ -15,20 +15,20 @@ solid_rock_example <- readLines("./2022/Day14/solid_rock_example.txt")
 # Déclaration fonction ---------------------------------------------------------
 
 get_min_max <- function(data_rock) {
-    all_coor <- c(Inf, -Inf, Inf, -Inf)
+    coor <- c(Inf, -Inf, Inf, -Inf)
     for (line in data_rock) {
         new_coor <- line |>
             strsplit(split = " -> ") |>
             unlist() |>
             strsplit(split = ",")
 
-        all_coor[1] <- min(all_coor[1], sapply(new_coor, "[[", 1) |> as.numeric())
-        all_coor[2] <- max(all_coor[2], sapply(new_coor, "[[", 1) |> as.numeric())
-        all_coor[3] <- min(all_coor[3], sapply(new_coor, "[[", 2) |> as.numeric())
-        all_coor[4] <- max(all_coor[4], sapply(new_coor, "[[", 2) |> as.numeric())
+        coor[1] <- min(coor[1], sapply(new_coor, "[[", 1) |> as.numeric())
+        coor[2] <- max(coor[2], sapply(new_coor, "[[", 1) |> as.numeric())
+        coor[3] <- min(coor[3], sapply(new_coor, "[[", 2) |> as.numeric())
+        coor[4] <- max(coor[4], sapply(new_coor, "[[", 2) |> as.numeric())
     }
 
-    return(all_coor)
+    return(coor)
 }
 
 add_one_path_rock <- function(cave_map, bord, dim_min) {
@@ -41,9 +41,9 @@ add_one_path_rock <- function(cave_map, bord, dim_min) {
     new_coor[, 1] <- as.numeric(new_coor[, 1])
     new_coor[, 2] <- as.numeric(new_coor[, 2])
 
-    for (intersection in seq_len(nrow(new_coor) - 1)) {
-        row_vect <- new_coor[intersection, 2]:new_coor[intersection + 1, 2] + 1
-        col_vect <- new_coor[intersection, 1]:new_coor[intersection + 1, 1] - dim_min + 1
+    for (its in seq_len(nrow(new_coor) - 1)) {
+        row_vect <- new_coor[its, 2]:new_coor[its + 1, 2] + 1
+        col_vect <- new_coor[its, 1]:new_coor[its + 1, 1] - dim_min + 1
         cave_map[row_vect, col_vect] <- "#"
     }
 
@@ -52,7 +52,8 @@ add_one_path_rock <- function(cave_map, bord, dim_min) {
 
 add_all_rock_path <- function(cave_map, data_rock, dim_min) {
     for (bord in data_rock) {
-        cave_map <- cave_map |> add_one_path_rock(bord = bord, dim_min = dim_min)
+        cave_map <- cave_map |>
+            add_one_path_rock(bord = bord, dim_min = dim_min)
     }
     return(cave_map)
 }

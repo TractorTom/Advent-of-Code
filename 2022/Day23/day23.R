@@ -16,8 +16,8 @@ grove_example2 <- readLines("./2022/Day23/grove_example2.txt")
 # Déclaration fonction ---------------------------------------------------------
 
 is_in_list <- function(item, liste) {
-    for (element in liste) if (all(item == element)) {
-        return(TRUE)
+    for (element in liste) {
+        if (all(item == element)) return(TRUE)
     }
     return(FALSE)
 }
@@ -34,10 +34,10 @@ choose_propose <- function(id, tab, round) {
     )
 
     v <- c(
-        sum((tab$x %in% c(x - 1, x, x + 1)) && (tab$y == (y - 1))) == 0,
-        sum((tab$x %in% c(x - 1, x, x + 1)) && (tab$y == (y + 1))) == 0,
-        sum((tab$y %in% c(y - 1, y, y + 1)) && (tab$x == (x - 1))) == 0,
-        sum((tab$y %in% c(y - 1, y, y + 1)) && (tab$x == (x + 1))) == 0
+        sum((tab$x %in% c(x - 1, x, x + 1)) & (tab$y == (y - 1))) == 0,
+        sum((tab$x %in% c(x - 1, x, x + 1)) & (tab$y == (y + 1))) == 0,
+        sum((tab$y %in% c(y - 1, y, y + 1)) & (tab$x == (x - 1))) == 0,
+        sum((tab$y %in% c(y - 1, y, y + 1)) & (tab$x == (x + 1))) == 0
     )
 
     if (all(v)) {
@@ -59,13 +59,19 @@ display_map <- function(map) {
 
     for (id in seq_len(nrow(map))) {
         if (id < 10) {
-            mat[map[id, "y"] - min(map$y) + 1, map[id, "x"] - min(map$x) + 1] <- id
+            x <- map[id, "y"] - min(map$y) + 1
+            y <- map[id, "x"] - min(map$x) + 1
+            mat[x, y] <- id
         } else {
-            mat[map[id, "y"] - min(map$y) + 1, map[id, "x"] - min(map$x) + 1] <- "#"
+            x <- map[id, "y"] - min(map$y) + 1
+            y <- map[id, "x"] - min(map$x) + 1
+            mat[x, y] <- "#"
         }
     }
 
-    invisible(apply(mat, MARGIN = 1, FUN = \(x) print(paste0(x, collapse = ""))))
+    return(invisible(apply(X = mat,
+                           MARGIN = 1,
+                           FUN = \(x) print(paste0(x, collapse = "")))))
 }
 
 get_pos <- function(data_grove) {
@@ -95,10 +101,8 @@ search <- function(elves, limit) {
     while (round <= limit) {
         # Part 1 round
         for (id in seq_len(nrow(elves))) {
-            if (id == 1) {
-                a <- choose_propose(id = id, tab = elves, round = round)
-            }
-            elves[id, c("propose_y", "propose_x")] <- choose_propose(id = id, tab = elves, round = round)
+            val <- choose_propose(id = id, tab = elves, round = round)
+            elves[id, c("propose_y", "propose_x")] <- val
         }
 
         # Part 2
@@ -108,14 +112,21 @@ search <- function(elves, limit) {
             x <- elves$propose_x[id]
             y <- elves$propose_y[id]
 
-            if (sum((elves$propose_x == x) && (elves$propose_y == y), na.rm = TRUE) == 1 && all(!is.na(c(x, y)))) {
-                elves[id, c("new_y", "new_x")] <- elves[id, c("propose_y", "propose_x")]
+            if (sum((elves$propose_x == x) & (elves$propose_y == y),
+                    na.rm = TRUE) == 1
+                && all(!is.na(c(x, y)))) {
+
+                elves[id, c("new_y", "new_x")] <-
+                    elves[id, c("propose_y", "propose_x")]
             }
         }
 
-        if (all(elves$y - min(elves$y) == elves$new_y - min(elves$new_y)) &&
-            all(elves$x - min(elves$x) == elves$new_x - min(elves$new_x))) {
-            square <- (max(elves$x) - min(elves$x) + 1) * (max(elves$y) - min(elves$y) + 1)
+        if (all(elves$y - min(elves$y) == elves$new_y - min(elves$new_y))
+            && all(elves$x - min(elves$x) == elves$new_x - min(elves$new_x))) {
+
+            square <- (max(elves$x) - min(elves$x) + 1) *
+                (max(elves$y) - min(elves$y) + 1)
+
             if (limit == 10) {
                 return(square - nrow(elves))
             } else {
@@ -131,7 +142,9 @@ search <- function(elves, limit) {
         round <- round + 1
     }
 
-    square <- (max(elves$x) - min(elves$x) + 1) * (max(elves$y) - min(elves$y) + 1)
+    square <- (max(elves$x) - min(elves$x) + 1) *
+        (max(elves$y) - min(elves$y) + 1)
+
     if (limit == 10) {
         return(square - nrow(elves))
     } else {
