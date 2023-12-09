@@ -6,8 +6,6 @@
 ##############
 
 
-options(digits = 22)
-
 # Import data ------------------------------------------------------------------
 
 beacons <- read.table("./2022/Day15/beacons.txt")
@@ -109,4 +107,4 @@ solve_day15_part1(beacons_example, 10)
 solve_day15_part1(beacons, 2000000)
 
 solve_day15_part2(beacons_example, 20)
-solve_day15_part2(beacons, 4000000)
+solve_day15_part2(beacons, 4000000) |> dput()

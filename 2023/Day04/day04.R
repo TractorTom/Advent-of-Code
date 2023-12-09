@@ -17,7 +17,7 @@ scratchcards_example <- readLines("./2023/Day04/scratchcards_example.txt")
 init <- function(data_scratchcards) {
     return(data_scratchcards |>
                strsplit(split = ": ") |>
-               sapply(FUN = `[`, 2) |>
+               vapply(FUN = `[`, FUN.VALUE = character(1), 2) |>
                strsplit(" | ", fixed = TRUE))
 }
 

@@ -5,7 +5,6 @@
 ##  DAY 20  ##
 ##############
 
-options(digits = 22)
 
 # Import data ------------------------------------------------------------------
 
@@ -84,4 +83,4 @@ solve_day20_part1(coordinates_example)
 solve_day20_part1(coordinates)
 
 solve_day20_part2(coordinates_example)
-solve_day20_part2(coordinates)
+solve_day20_part2(coordinates) |> dput()

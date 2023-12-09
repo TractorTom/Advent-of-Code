@@ -5,7 +5,6 @@
 ##  DAY 17  ##
 ##############
 
-options(digits = 22)
 
 # Import data ------------------------------------------------------------------
 
@@ -226,5 +225,5 @@ solve_day17_part2 <- function(data_jet) {
 solve_day17_part1(jet_pattern_example)
 solve_day17_part1(jet_pattern)
 
-solve_day17_part2(jet_pattern_example)
-solve_day17_part2(jet_pattern)
+solve_day17_part2(jet_pattern_example) |> dput()
+solve_day17_part2(jet_pattern) |> dput()

@@ -59,7 +59,9 @@ sort_cards <- function(data_cards, J_value) {
 }
 
 solve_day07_part1 <- function(data_cards) {
-    data_cards$rank <- sapply(data_cards$V1, type)
+    data_cards$rank <- vapply(X = data_cards$V1, 
+                              FUN = type, 
+                              FUN.VALUE = numeric(1))
     data_cards <- sort_cards(data_cards, J_value = "b")
 
     return(sum(seq_len(nrow(data_cards)) * data_cards$V2))
@@ -88,7 +90,9 @@ type_p2 <- function(hand) {
 }
 
 solve_day07_part2 <- function(data_cards) {
-    data_cards$rank <- sapply(data_cards$V1, type_p2)
+    data_cards$rank <- vapply(X = data_cards$V1, 
+                              FUN = type_p2, 
+                              FUN.VALUE = numeric(1))
     data_cards <- sort_cards(data_cards, J_value = "1")
 
     return(sum(seq_len(nrow(data_cards)) * data_cards$V2))

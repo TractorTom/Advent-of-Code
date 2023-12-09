@@ -99,13 +99,13 @@ count_gears <- function(data_schematic, line, col) {
 find_number <- function(data_schematic, line, col) {
 
     k <- 0
-    while (data_schematic[line, col + k] %in% c(0:9)) {
+    while (data_schematic[line, col + k] %in% 0:9) {
         k <- k - 1
     }
     min_k <- k + 1
 
     k <- 0
-    while (data_schematic[line, col + k] %in% c(0:9)) {
+    while (data_schematic[line, col + k] %in% 0:9) {
         k <- k + 1
     }
     max_k <- k - 1

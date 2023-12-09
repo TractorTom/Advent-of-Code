@@ -5,9 +5,6 @@
 ##  DAY 14  ##
 ##############
 
-######OPTIONS######
-
-options(digits = 20)
 
 ######IMPORT DATA######
 
@@ -128,5 +125,5 @@ solve_day14_part2 <- function(dataPolymer, nb_step = 40) {
 solve_day14_part1(polymer_example)
 solve_day14_part1(polymer)
 
-solve_day14_part2(polymer_example)
-solve_day14_part2(polymer)
+solve_day14_part2(polymer_example) |> dput()
+solve_day14_part2(polymer) |> dput()

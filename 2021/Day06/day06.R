@@ -5,8 +5,6 @@
 ##  DAY 06  ##
 ##############
 
-options(digits = 20)
-
 ###### IMPORT DATA ######
 
 time_lanternfish_example <- readLines(
@@ -42,4 +40,5 @@ count_fish(time_lanternfish_example, 80)
 count_fish(time_lanternfish, 80)
 
 count_fish(time_lanternfish_example, 256)
-count_fish(time_lanternfish, 256)
+count_fish(time_lanternfish, 256) |> 
+    dput()

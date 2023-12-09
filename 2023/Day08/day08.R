@@ -12,8 +12,6 @@ network <- readLines("./2023/Day08/network.txt")
 network_example <- readLines("./2023/Day08/network_example.txt")
 network_example2 <- readLines("./2023/Day08/network_example2.txt")
 
-options(digits = 22)
-
 
 # Déclaration fonction ---------------------------------------------------------
 
@@ -39,10 +37,10 @@ pgcd <- function(a, b) {
 
 ppcm <- function(a, b) a * b / pgcd(a, b)
 
-get_cycle <- function(start, data_networks) {
+get_cycle <- function(start, data_network) {
 
-    instructions <- data_networks$instructions
-    map <- data_networks$map
+    instructions <- data_network$instructions
+    map <- data_network$map
 
     v_end <- NULL
     v_step <- NULL
@@ -82,7 +80,7 @@ solve_day08_part2 <- function(data_network) {
     map <- data_network$map
     starting_point <- map$V1[(map$V1 |> substr(3, 3)) == "A"]
     return(starting_point |>
-               sapply(FUN = get_cycle, data_network) |>
+               vapply(FUN = get_cycle, FUN.VALUE = numeric(1), data_network) |>
                Reduce(f = ppcm))
 }
 
@@ -98,4 +96,4 @@ solve_day08_part1(network)
 ## Part 2 ------------------------------------------------------------------
 
 solve_day08_part2(network_example2)
-solve_day08_part2(network)
+solve_day08_part2(network) |> dput()
