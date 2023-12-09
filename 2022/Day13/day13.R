@@ -23,17 +23,22 @@ to_list <- function(data_signal) {
 }
 
 compare <- function(signal_a, signal_b) {
-    if ((is.null(signal_a) || (is.list(signal_a) && length(signal_a) == 0)) &&
-        (is.null(signal_b) || (is.list(signal_b) && length(signal_b) == 0))) {
+    if ((is.null(signal_a)
+         || (is.list(signal_a) && length(signal_a) == 0))
+        && (is.null(signal_b)
+            || (is.list(signal_b) && length(signal_b) == 0))) {
         return(2)
-    } else if (is.null(signal_a) || (is.list(signal_a) && length(signal_a) == 0)) {
+    } else if (is.null(signal_a)
+               || (is.list(signal_a) && length(signal_a) == 0)) {
         return(1)
-    } else if (is.null(signal_b) || (is.list(signal_b) && length(signal_b) == 0)) {
+    } else if (is.null(signal_b)
+               || (is.list(signal_b) && length(signal_b) == 0)) {
         return(0)
     }
 
     if (!is.list(signal_a) && !is.list(signal_b)) {
-        return((as.numeric(signal_a) <= as.numeric(signal_b)) + (as.numeric(signal_a) == as.numeric(signal_b)))
+        return((as.numeric(signal_a) <= as.numeric(signal_b))
+               + (as.numeric(signal_a) == as.numeric(signal_b)))
     } else if (!is.list(signal_a)) {
         return(compare(list(signal_a), signal_b))
     } else if (!is.list(signal_b)) {
@@ -47,7 +52,8 @@ compare <- function(signal_a, signal_b) {
         }
     }
 
-    return((length(signal_a) <= length(signal_b)) + (length(signal_a) == length(signal_b)))
+    return((length(signal_a) <= length(signal_b))
+           + (length(signal_a) == length(signal_b)))
 }
 
 solve_day13_part1 <- function(data_signal) {
@@ -67,14 +73,13 @@ solve_day13_part1 <- function(data_signal) {
 }
 
 solve_day13_part2 <- function(data_signal) {
-    n <- (length(data_signal) + 1) %/% 3
 
     signal_deb <- "[[2]]" |> to_list()
     signal_fin <- "[[6]]" |> to_list()
     compte_deb <- 0
     compte_fin <- 0
 
-    for (index in seq_len(length(data_signal))) {
+    for (index in seq_along(data_signal)) {
         if (index %% 3 != 0) {
             signal_k <- data_signal[index] |> to_list()
 

@@ -17,12 +17,24 @@ map_valley_example2 <- readLines("./2022/Day24/valley_map_example2.txt")
 
 # Déclaration fonction ---------------------------------------------------------
 
+pgcd <- function(x, y) {
+    if (y == 0) {
+        return(x)
+    } else {
+        return(pgcd(y, x %% y))
+    }
+}
+
 ppcm <- function(x, y) {
-    return(x * y %/% schoolmath::gcd(x, y))
+    return(x * y %/% pgcd(x, y))
 }
 
 modulo_vectorise <- function(indexs, pos, all_step) {
-    (function(steps) ((function(step) (pos + step - indexs) %% length(indexs) == 0) |> Vectorize())(steps))(all_step)
+    (function(steps) {
+        aux <- (function(step) (pos + step - indexs) %% length(indexs) == 0) |>
+            Vectorize()
+        return(aux(steps))
+    })(all_step)
 }
 
 get_blizzard_position <- function(data_valley) {
@@ -34,7 +46,14 @@ get_blizzard_position <- function(data_valley) {
         for (col in seq_along(data_valley[[row]])) {
             val <- data_valley[[row]][col]
             if (val %in% ordre) {
-                blizzard_position <- rbind(blizzard_position, cbind(row - 1, col - 1, c("left", "right", "up", "down")[which(val == ordre)]))
+                blizzard_position <- rbind(
+                    blizzard_position,
+                    cbind(
+                        row - 1,
+                        col - 1,
+                        c("left", "right", "up", "down")[which(val == ordre)]
+                    )
+                )
             }
         }
     }
@@ -67,27 +86,23 @@ get_blizzard_map <- function(data_valley) {
         if (direction == "up") {
             map[, x, ] <- map[, x, ] |
                 modulo_vectorise(seq_len(dim_y),
-                    pos = y,
-                    all_step = -(seq_len(max_step))
-                )
+                                 pos = y,
+                                 all_step = -(seq_len(max_step)))
         } else if (direction == "down") {
             map[, x, ] <- map[, x, ] |
                 modulo_vectorise(seq_len(dim_y),
-                    pos = y,
-                    all_step = seq_len(max_step)
-                )
+                                 pos = y,
+                                 all_step = seq_len(max_step))
         } else if (direction == "left") {
             map[y, , ] <- map[y, , ] |
                 modulo_vectorise(seq_len(dim_x),
-                    pos = x,
-                    all_step = -(seq_len(max_step))
-                )
+                                 pos = x,
+                                 all_step = -(seq_len(max_step)))
         } else if (direction == "right") {
             map[y, , ] <- map[y, , ] |
                 modulo_vectorise(seq_len(dim_x),
-                    pos = x,
-                    all_step = seq_len(max_step)
-                )
+                                 pos = x,
+                                 all_step = seq_len(max_step))
         }
     }
 
@@ -136,7 +151,6 @@ search_path <- function(blizzard_map, start, end, step) {
         y <- etat[1]
         x <- etat[2]
         step <- etat[3]
-
 
         if (y == end[1] && x == end[2]) {
             return(step + 1)
