@@ -22,10 +22,22 @@ get_min_max <- function(data_rock) {
             unlist() |>
             strsplit(split = ",")
 
-        coor[1] <- min(coor[1], sapply(new_coor, "[[", 1) |> as.numeric())
-        coor[2] <- max(coor[2], sapply(new_coor, "[[", 1) |> as.numeric())
-        coor[3] <- min(coor[3], sapply(new_coor, "[[", 2) |> as.numeric())
-        coor[4] <- max(coor[4], sapply(new_coor, "[[", 2) |> as.numeric())
+        coor[1] <- min(coor[1],
+                       vapply(X = new_coor,
+                              FUN.VALUE = character(1),
+                              FUN = "[[", 1) |> as.numeric())
+        coor[2] <- max(coor[2],
+                       vapply(X = new_coor,
+                              FUN.VALUE = character(1),
+                              FUN = "[[", 1) |> as.numeric())
+        coor[3] <- min(coor[3],
+                       vapply(X = new_coor,
+                              FUN.VALUE = character(1),
+                              FUN = "[[", 2) |> as.numeric())
+        coor[4] <- max(coor[4],
+                       vapply(X = new_coor,
+                              FUN.VALUE = character(1),
+                              FUN = "[[", 2) |> as.numeric())
     }
 
     return(coor)
