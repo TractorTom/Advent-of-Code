@@ -5,7 +5,6 @@
 ##  DAY 21  ##
 ##############
 
-options(digits = 22)
 
 # Import data ------------------------------------------------------------------
 
@@ -118,9 +117,12 @@ traitement_p2 <- function(riddle) {
             to_do = TRUE,
             is.nb_left = is.nb,
             is.nb_right = is.nb,
-            left = formule |> strsplit(" ") |> sapply(FUN = base::`[`, 1),
-            right = formule |> strsplit(" ") |> sapply(FUN = base::`[`, 3),
-            op = formule |> strsplit(" ") |> sapply(FUN = base::`[`, 2),
+            left = formule |> strsplit(" ") |> vapply(FUN.VALUE = character(1), 
+                                                      FUN = base::`[`, 1),
+            right = formule |> strsplit(" ") |> vapply(FUN.VALUE = character(1), 
+                                                       FUN = base::`[`, 3),
+            op = formule |> strsplit(" ") |> vapply(FUN.VALUE = character(1), 
+                                                    FUN = base::`[`, 2),
             value = dplyr::case_when(
                 nom == "humn" ~ list(c(0, 1, 1, 1)),
                 TRUE ~ list(c(rep(NA_real_, 4)))
@@ -206,7 +208,7 @@ solve_day21_part2 <- function(riddle) {
 # Execution --------------------------------------------------------------------
 
 solve_day21_part1(riddle = monkey_example)
-solve_day21_part1(riddle = monkey)
+solve_day21_part1(riddle = monkey) |> dput()
 
 solve_day21_part2(riddle = monkey_example)
-solve_day21_part2(riddle = monkey)
+solve_day21_part2(riddle = monkey) |> dput()
