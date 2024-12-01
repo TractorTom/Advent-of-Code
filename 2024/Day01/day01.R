@@ -18,23 +18,24 @@ solve_day01_part1 <- function(id_table) {
     return(sum(abs(sort(id_table$V1) - sort(id_table$V2))))
 }
 
-compute_similarity_score <- function(value, right_list) {
+compute_occurences_score <- function(value, right_list) {
     return(sum(value == right_list))
 }
 
 solve_day01_part2 <- function(id_table) {
-    similarity_scores <- vapply(
+    occurences_scores <- vapply(
         X = id_table$V1,
-        FUN = compute_similarity_score,
+        FUN = compute_occurences_score,
         right_list = id_table$V2,
         FUN.VALUE = integer(1L)
     )
-    return(sum(id_table$V1 * similarity_scores))
+    return(sum(id_table$V1 * occurences_scores))
 }
 
-# v1 <- id_table$v1
-# v2 <- id_table$v2
-# sum(v1 * table(factor(v2, levels = unique(v1)))[as.character(v1)], na.rm = TRUE)
+solve_day01_part2_bis <- function(id_table) {
+    occurences_scores <- table(id_table$V2)[as.character(id_table$V1)]
+    return(sum(id_table$V1 * occurences_scores, na.rm = TRUE))
+}
 
 
 # Execution --------------------------------------------------------------------
