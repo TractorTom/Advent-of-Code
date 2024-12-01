@@ -1,5 +1,10 @@
-linters: linters_with_defaults(
-        indentation_linter(indent = 4L),
-        cyclocomp_linter(complexity_limit = 10L)
+linters: lintr::all_linters(
+        indentation_linter = indentation_linter(indent = 4L),
+        line_length_linter = lintr::line_length_linter(80L),
+        cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 10L),
+        implicit_integer_linter = NULL,
+        extraction_operator_linter = NULL,
+        nonportable_path_linter = NULL,
+        fixed_regex_linter = NULL
     )
 encoding: "UTF-8"
