@@ -7,23 +7,23 @@
 
 ###### IMPORT PACKAGE######
 
-library(magrittr)
+library("magrittr")
 
 ###### IMPORT DATA ######
 
-set_of_board_example <- readLines("./2021/Day04/board_example.txt")
-set_of_board <- readLines("./2021/Day04/board.txt")
+set_of_board_example <- readLines(file.path("2021", "Day04", "board_example.txt"))
+set_of_board <- readLines(file.path("2021", "Day04", "board.txt"))
 
 ###### TRAITEMENT DATA ######
 
-traitement <- function(dataBoard) {
-    list_nums <- as.numeric(strsplit(dataBoard[1], split = ",")[[1]])
+traitement <- function(data_board) {
+    list_nums <- as.numeric(strsplit(data_board[1], split = ",")[[1]])
     index_1 <- 3
     list_boards <- list()
 
-    for (index_2 in 3:length(dataBoard)) {
-        if (dataBoard[index_2] == "") {
-            board <- dataBoard[index_1:(index_2 - 1)] %>%
+    for (index_2 in 3:length(data_board)) {
+        if (data_board[index_2] == "") {
+            board <- data_board[index_1:(index_2 - 1)] %>%
                 strsplit(split = " ") %>%
                 lapply(FUN = as.numeric) %>%
                 lapply(FUN = function(line) line[!is.na(line)]) %>%
@@ -33,7 +33,7 @@ traitement <- function(dataBoard) {
         }
     }
 
-    board <- dataBoard[index_1:length(dataBoard)] %>%
+    board <- data_board[index_1:length(data_board)] %>%
         strsplit(split = " ") %>%
         lapply(FUN = as.numeric) %>%
         lapply(FUN = function(line) line[!is.na(line)]) %>%
@@ -52,41 +52,36 @@ set_of_board_example <- traitement(set_of_board_example)
 
 ###### DECLARATION FONCTION ######
 
-solve_day04_part1 <- function(listBoard) {
-    completedBoard <- listBoard$board
+solve_day04_part1 <- function(list_board) {
+    completed_board <- list_board$board
 
-    for (k in seq_along(listBoard$num)) {
-        num <- listBoard$num[k]
-        for (i in seq_along(completedBoard)) {
-            completedBoard[[i]][completedBoard[[i]] == num] <- NA
-            board <- completedBoard[[i]]
+    for (k in seq_along(list_board$num)) {
+        num <- list_board$num[k]
+        for (i in seq_along(completed_board)) {
+            completed_board[[i]][completed_board[[i]] == num] <- -1
+            board <- completed_board[[i]]
 
-            for (col in 1:5) {
-                if (all(is.na(board[, col]))) {
-                    return(sum(board, na.rm = TRUE) * num)
-                }
-            }
-            for (lig in 1:5) {
-                if (all(is.na(board[lig, ]))) {
-                    return(sum(board, na.rm = TRUE) * num)
-                }
+            row_sum <- rowSums(board)
+            col_sum <- colSums(board)
+            if (any(-5 == c(row_sum, col_sum))) {
+                return(sum(board[board > 0]) * num)
             }
         }
     }
     stop("L'algorithme aurait dû finir.")
 }
 
-solve_day04_part2 <- function(listBoard) {
-    completedBoard <- listBoard$board
-    index <- seq_along(completedBoard)
+solve_day04_part2 <- function(list_board) {
+    completed_board <- list_board$board
+    index <- seq_along(completed_board)
 
     k <- 1
     while (length(index) > 1) {
-        num <- listBoard$num[k]
+        num <- list_board$num[k]
         index_temp <- index
         for (i in index_temp) {
-            board <- completedBoard[[i]]
-            completedBoard[[i]][board == num] <- NA
+            board <- completed_board[[i]]
+            completed_board[[i]][board == num] <- NA
 
             for (col in seq_len(ncol(board))) {
                 if (all(is.na(board[, col]))) index <- index[index != i]
@@ -98,27 +93,38 @@ solve_day04_part2 <- function(listBoard) {
         k <- k + 1
     }
 
-    lastBoard <- completedBoard[[index]]
+    last_board <- completed_board[[index]]
     test_aligne <- 0 %in% c(
-        apply(lastBoard, 2, sum, na.rm = TRUE),
-        apply(lastBoard, 1, sum, na.rm = TRUE)
+        colSums(last_board, na.rm = TRUE),
+        rowSums(last_board, na.rm = TRUE)
     )
 
-    while (!test_aligne && k <= length(listBoard$num)) {
-        num <- listBoard$num[k]
-        lastBoard[lastBoard == num] <- NA
+    while (!test_aligne && k <= length(list_board$num)) {
+        num <- list_board$num[k]
+        last_board[last_board == num] <- NA
         test_aligne <- 0 %in% c(
-            apply(lastBoard, 1, sum, na.rm = TRUE),
-            apply(lastBoard, 2, sum, na.rm = TRUE)
+            colSums(last_board, na.rm = TRUE),
+            rowSums(last_board, na.rm = TRUE)
         )
         k <- k + 1
     }
 
-    return(sum(lastBoard, na.rm = TRUE) * num)
+    return(sum(last_board, na.rm = TRUE) * num)
 }
 
-solve_day04_part1(listBoard = set_of_board_example)
-solve_day04_part1(listBoard = set_of_board)
+###### EXECUTION ######
 
-solve_day04_part2(listBoard = set_of_board_example)
-solve_day04_part2(listBoard = set_of_board)
+solve_day04_part1(list_board = set_of_board_example)
+solve_day04_part1(list_board = set_of_board)
+
+solve_day04_part1_bis(list_board = set_of_board_example)
+solve_day04_part1_bis(list_board = set_of_board)
+
+solve_day04_part2(list_board = set_of_board_example)
+solve_day04_part2(list_board = set_of_board)
+
+microbenchmark::microbenchmark(
+    v1 =
+        solve_day04_part1(list_board = set_of_board),
+    v2 = solve_day04_part1_bis(list_board = set_of_board)
+)
