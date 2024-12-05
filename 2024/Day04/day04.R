@@ -1,3 +1,5 @@
+#!/usr/bin/env r
+
 # Titre : day04.R
 # Auteur : Tanguy
 
