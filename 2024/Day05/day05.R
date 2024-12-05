@@ -1,3 +1,5 @@
+#!/usr/bin/env r
+
 # Titre : day05.R
 # Auteur : Tanguy
 
@@ -5,7 +7,6 @@
 ##  DAY 05  ##
 ##############
 
-# proffer::pprof({
 # Import data ------------------------------------------------------------------
 
 manual <- readLines(file.path("2024", "Day05", "manual.txt"))
