@@ -21,12 +21,14 @@ pre_treatment <- function(data_manual) {
         strsplit(split = "|", fixed = TRUE) |>
         do.call(what = rbind) |>
         as.data.frame()
-    updates <- data_manual[(sep + 1L):(length(data_manual))]
+    updates <- data_manual[(sep + 1L):(length(data_manual))] |>
+        strsplit(split = ",", fixed = TRUE)
 
     return(list(rules = rules, updates = updates))
 }
 
 is_sorted <- function(x, rules) {
+    rules <- rules[rules[["V1"]] %in% x & rules[["V2"]] %in% x, ]
     positions <- seq_along(x)
     names(positions) <- x
     condition <- all(positions[rules[["V1"]]] < positions[rules[["V2"]]])
@@ -40,14 +42,9 @@ solve_day05_part1 <- function(data_manual) {
     updates <- l_manual[["updates"]]
 
     output <- 0L
-    for (u in updates) {
-        pages <- strsplit(u, split = ",", fixed = TRUE) |>
-            unlist() |>
-            as.numeric()
-        rrules <- rules[rules[["V1"]] %in% pages
-                        & rules[["V2"]] %in% pages, ]
-        if (is_sorted(pages, rrules)) {
-            output <-  output + pages[(length(pages) + 1L) / 2L]
+    for (pages in updates) {
+        if (is_sorted(pages, rules)) {
+            output <-  output + as.numeric(pages[(length(pages) + 1L) / 2L])
         }
     }
     return(output)
@@ -56,6 +53,7 @@ solve_day05_part1 <- function(data_manual) {
 rearrange <- function(x, rules) {
     positions <- seq_along(x)
     names(positions) <- x
+    rules <- rules[rules[["V1"]] %in% x & rules[["V2"]] %in% x, ]
     while (length(x) > 1L) {
         never_first <- setdiff(x, rules[["V1"]])
         never_second <- setdiff(x, rules[["V2"]])
@@ -72,14 +70,9 @@ solve_day05_part2 <- function(data_manual) {
     updates <- l_manual[["updates"]]
 
     output <- 0L
-    for (u in updates) {
-        pages <- strsplit(u, split = ",", fixed = TRUE) |>
-            unlist() |>
-            as.numeric()
-        rrules <- rules[rules[["V1"]] %in% pages
-                        & rules[["V2"]] %in% pages, ]
-        if (!is_sorted(pages, rrules)) {
-            output <- output + rearrange(pages, rrules)
+    for (pages in updates) {
+        if (!is_sorted(pages, rules)) {
+            output <- output + as.numeric(rearrange(pages, rules))
         }
     }
     return(output)
