@@ -70,7 +70,7 @@ solve_day07_part2 <- function(data_equations) {
 
 # Execution --------------------------------------------------------------------
 
-withr::with_options(new = list(digits = 22), code = {
+withr::with_options(new = list(digits = 22L), code = {
 
     ## Part 1 ------------------------------------------------------------------
 
