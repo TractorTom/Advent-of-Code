@@ -17,40 +17,42 @@ equations_example <- readLines(file.path("2024", "Day07",
 
 # Déclaration fonction ---------------------------------------------------------
 
-all_possible <- function(res, values) {
+extract_terms <- function(equation) {
+    terms <- equation |>
+        strsplit(split = ": | ", perl = TRUE, fixed = FALSE) |>
+        unlist() |>
+        as.numeric()
+    return(terms)
+}
+
+concatenate <- function(a, b) {
+    return(a * 10L ** (floor(log(b) / log(10.0)) + 1L) + b)
+}
+
+all_possible <- function(funs, res, values) {
     l <- length(values)
     if (l == 1L) {
         return(values)
     }
-    out <- all_possible(res, values[-l])
-    out <- out[out <= res]
-    return(c(values[[l]] * out, values[[l]] + out))
+    possible_n_1 <- all_possible(funs, res, values[-l])
+    possible_n_1 <- possible_n_1[possible_n_1 <= res]
+    output <- vapply(
+        X = funs,
+        FUN = do.call,
+        list(possible_n_1, values[[l]]),
+        FUN.VALUE = numeric(length(possible_n_1))
+    ) |>
+        as.numeric()
+    return(output)
 }
 
-all_possible2 <- function(res, values) {
-    l <- length(values)
-    if (l == 1L) {
-        return(values)
-    }
-    out <- all_possible2(res, values[-l])
-    out <- out[out <= res]
-    return(c(values[[l]] * out,
-             values[[l]] + out,
-             as.numeric(paste0(out, values[[l]]))))
-}
-
-count_valid <- function(data_equations, fun_possible) {
+count_valid <- function(data_equations, funs) {
     calibration_results <- 0L
     for (equations in data_equations) {
-        out <- equations |>
-            strsplit(": ", fixed = TRUE) |>
-            unlist() |>
-            strsplit(" ", fixed = TRUE) |>
-            unlist() |>
-            as.numeric()
+        out <- extract_terms(equations)
         res <- out[[1L]]
         test_values <- out[-1L]
-        if (res %in% fun_possible(res, test_values)) {
+        if (res %in% all_possible(funs = funs, res, test_values)) {
             calibration_results <- calibration_results + res
         }
     }
@@ -58,12 +60,12 @@ count_valid <- function(data_equations, fun_possible) {
 }
 
 solve_day07_part1 <- function(data_equations) {
-    out <- count_valid(data_equations, all_possible)
+    out <- count_valid(data_equations, list(`+`, `*`))
     return(out)
 }
 
 solve_day07_part2 <- function(data_equations) {
-    out <- count_valid(data_equations, all_possible2)
+    out <- count_valid(data_equations, list(`+`, concatenate, `*`))
     return(out)
 }
 
