@@ -75,7 +75,7 @@ solve_day09_part2 <- function(data_disk) {
 
     id_value <- max(id_number)
     while (id_value > 0L) {
-        pos_id_value <- which(id_number == id_value)
+        pos_id_value <- which.max(id_number == id_value)
         nb_rep <- space_disk[pos_id_value]
         solutions <- which(id_number == -1L & space_disk >= nb_rep)
         solutions <- solutions[solutions < pos_id_value]
@@ -101,13 +101,15 @@ solve_day09_part2 <- function(data_disk) {
 
 # Execution --------------------------------------------------------------------
 
-## Part 1 ----------------------------------------------------------------------
+withr::with_options(new = list(digits = 22L), code = {
+    ## Part 1 ------------------------------------------------------------------
 
-solve_day09_part1(disk_example)
-solve_day09_part1(disk)
+    solve_day09_part1(disk_example) |> print()
+    solve_day09_part1(disk) |> print()
 
 
-## Part 2 ----------------------------------------------------------------------
+    ## Part 2 ------------------------------------------------------------------
 
-solve_day09_part2(disk_example)
-solve_day09_part2(disk)
+    solve_day09_part2(disk_example) |> print()
+    solve_day09_part2(disk) |> print()
+})
