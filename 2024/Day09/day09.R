@@ -34,15 +34,7 @@ get_initial_id_number <- function(space_disk) {
 }
 
 get_disk_blocks_representation <- function(space_disk, id_number) {
-    disk_blocks <- integer(length = sum(space_disk))
-    disk_blocks[disk_blocks == 0L] <- -1L
-
-    index <- 1L
-    for (k in seq_along(space_disk)) {
-        disk_blocks[index - 1L + seq_len(space_disk[k])] <- id_number[k]
-        index <- index + space_disk[k]
-    }
-    return(disk_blocks)
+    rep(id_number, space_disk)
 }
 
 compacting_disk <- function(disk_blocks) {
@@ -102,6 +94,7 @@ solve_day09_part2 <- function(data_disk) {
 # Execution --------------------------------------------------------------------
 
 withr::with_options(new = list(digits = 22L), code = {
+
     ## Part 1 ------------------------------------------------------------------
 
     solve_day09_part1(disk_example) |> print()
