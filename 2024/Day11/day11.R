@@ -18,7 +18,7 @@ stones_example2 <- readLines(file.path("2024", "Day11", "stones_example2.txt"))
 # Déclaration fonction ---------------------------------------------------------
 
 n_digits <- function(n) {
-    return(floor(log(n) / log(10.0)) + 1L)
+    return(floor(log10(n)) + 1L)
 }
 
 separate <- function(n) {
@@ -83,12 +83,12 @@ withr::with_options(new = list(digits = 22L), code = {
 
     ## Part 1 ------------------------------------------------------------------
 
-    solve_day11_part1(stones_example2)
-    solve_day11_part1(stones)
+    solve_day11_part1(stones_example2) |> print()
+    solve_day11_part1(stones) |> print()
 
 
     ## Part 2 ------------------------------------------------------------------
 
-    solve_day11_part2(stones)
+    solve_day11_part2(stones) |> print()
 
 })
