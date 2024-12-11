@@ -26,7 +26,7 @@ extract_terms <- function(equation) {
 }
 
 concatenate <- function(a, b) {
-    return(a * 10L ** (floor(log(b) / log(10.0)) + 1L) + b)
+    return(a * 10L ** (floor(log10(b)) + 1L) + b)
 }
 
 all_possible <- function(funs, res, values) {
