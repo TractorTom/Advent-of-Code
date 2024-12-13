@@ -11,18 +11,23 @@
 # Import data ------------------------------------------------------------------
 
 garden_plots <- readLines(file.path("2024", "Day12", "garden.txt"))
-garden_plots_example <- readLines(file.path("2024", "Day12", "garden_example.txt"))
-garden_plots_example2 <- readLines(file.path("2024", "Day12", "garden_example2.txt"))
-garden_plots_example3 <- readLines(file.path("2024", "Day12", "garden_example3.txt"))
-garden_plots_example4 <- readLines(file.path("2024", "Day12", "garden_example4.txt"))
-garden_plots_example5 <- readLines(file.path("2024", "Day12", "garden_example5.txt"))
+garden_plots_example <- readLines(file.path("2024", "Day12",
+                                            "garden_example.txt"))
+garden_plots_example2 <- readLines(file.path("2024", "Day12",
+                                             "garden_example2.txt"))
+garden_plots_example3 <- readLines(file.path("2024", "Day12",
+                                             "garden_example3.txt"))
+garden_plots_example4 <- readLines(file.path("2024", "Day12",
+                                             "garden_example4.txt"))
+garden_plots_example5 <- readLines(file.path("2024", "Day12",
+                                             "garden_example5.txt"))
 
 
 # Déclaration fonction ---------------------------------------------------------
 
 create_map <- function(data_garden) {
     data_garden <- data_garden |>
-        strsplit(split = "") |>
+        strsplit(split = "", fixed = TRUE) |>
         do.call(what = rbind) |>
         rbind(".", ... = _, ".") |>
         cbind(".", ... = _, ".")
@@ -31,52 +36,52 @@ create_map <- function(data_garden) {
 }
 
 get_position_int <- function(pos, n) {
-    return(pos[1] + n * (pos[2] - 1))
+    return(pos[[1L]] + n * (pos[[2L]] - 1L))
 }
 
 get_position_vect <- function(pos, n) {
-    return(c(row = 1 + (pos - 1) %% n, col = 1 + (pos - 1) %/% n))
+    return(c(row = 1L + (pos - 1L) %% n, col = 1L + (pos - 1L) %/% n))
 }
 
 get_neighboors <- function(pos, n) {
-    return(c(pos - 1, pos + 1, pos - n, pos + n))
+    return(c(pos - 1L, pos + 1L, pos - n, pos + n))
 }
 
 count_perimeters <- function(pos, map) {
     neighboors <- get_neighboors(pos, nrow(map))
-    nb_sides <- sum(map[neighboors] != map[pos])
+    nb_sides <- sum(map[neighboors] != map[[pos]])
     return(nb_sides)
 }
 
 count_corners <- function(pos, map) {
-    plant <- map[pos]
+    plant <- map[[pos]]
 
     pos_v <- get_position_vect(pos, nrow(map))
-    zoom_map <- map[pos_v[1] + -1:1, pos_v[2] + -1:1]
+    zoom_map <- map[pos_v[[1L]] + -1L:1L, pos_v[[2L]] + -1L:1L]
     zoom_map[zoom_map != plant] <- "0"
     zoom_map[zoom_map == plant] <- "1"
     zoom_map <- as.integer(zoom_map)
 
-    nb_corners <- 4 - 2 * sum(zoom_map[2 * 1:4]) +
-        2 * zoom_map[2] * zoom_map[4] +
-        2 * zoom_map[4] * zoom_map[8] +
-        2 * zoom_map[2] * zoom_map[6] +
-        2 * zoom_map[6] * zoom_map[8] -
-        zoom_map[1] * zoom_map[2] * zoom_map[4] -
-        zoom_map[4] * zoom_map[7] * zoom_map[8] -
-        zoom_map[6] * zoom_map[8] * zoom_map[9] -
-        zoom_map[2] * zoom_map[3] * zoom_map[6]
+    nb_corners <- 4L - 2L * sum(zoom_map[2L * 1L:4]) +
+        2L * zoom_map[[2L]] * zoom_map[[4L]] +
+        2L * zoom_map[[4L]] * zoom_map[[8L]] +
+        2L * zoom_map[[2L]] * zoom_map[[6L]] +
+        2L * zoom_map[[6L]] * zoom_map[[8L]] -
+        zoom_map[[1L]] * zoom_map[[2L]] * zoom_map[[4L]] -
+        zoom_map[[4L]] * zoom_map[[7L]] * zoom_map[[8L]] -
+        zoom_map[[6L]] * zoom_map[[8L]] * zoom_map[[9L]] -
+        zoom_map[[2L]] * zoom_map[[3L]] * zoom_map[[6L]]
 
     return(nb_corners)
 }
 
 get_garden <- function(pos, map) {
-    plant <- map[pos]
+    plant <- map[[pos]]
     garden <- NULL
     to_check <- pos
-    while (length(to_check) > 0) {
-        current <- to_check[1]
-        to_check <- to_check[-1]
+    while (length(to_check) > 0L) {
+        current <- to_check[[1L]]
+        to_check <- to_check[-1L]
         garden <- c(garden, current)
         neighboors <- get_neighboors(current, nrow(map))
         new_to_check <- neighboors[!(neighboors %in% c(to_check, garden))
@@ -89,16 +94,21 @@ get_garden <- function(pos, map) {
 compute_total_price <- function(data_garden, perimeter_function) {
 
     map <- create_map(data_garden)
-    n <- nrow(map)
     to_check <- seq_along(map)
-    total_price <- 0
+    total_price <- 0L
 
-    while(length(to_check) > 0) {
-        current <- to_check[1]
-        to_check <- to_check[-1]
-        if (map[current] != ".") {
+    while (length(to_check) > 0L) {
+        current <- to_check[[1L]]
+        to_check <- to_check[-1L]
+        if (map[[current]] != ".") {
             garden <- get_garden(current, map)
-            perimeter <- sapply(garden, perimeter_function, map = map) |> sum()
+            perimeter <- vapply(
+                X = garden,
+                FUN = perimeter_function,
+                map = map,
+                FUN.VALUE = numeric(1L)
+            ) |>
+                sum()
             area <- length(garden)
             total_price <- total_price + area * perimeter
             to_check <- setdiff(to_check, garden)
