@@ -16,7 +16,7 @@ robots_example <- readLines(file.path("2024", "Day14", "robots_example.txt"))
 
 # Déclaration fonction ---------------------------------------------------------
 
-source("R/utils.R")
+source(file.path("R", "utils.R"))
 
 read_robots_data <- function(input_robots) {
     pattern <- "^p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)$"
