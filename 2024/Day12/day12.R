@@ -62,7 +62,7 @@ count_corners <- function(pos, map) {
     zoom_map[zoom_map == plant] <- "1"
     zoom_map <- as.integer(zoom_map)
 
-    nb_corners <- 4L - 2L * sum(zoom_map[2L * 1L:4]) +
+    nb_corners <- 4L - 2L * sum(zoom_map[2L * 1L:4L]) +
         2L * zoom_map[[2L]] * zoom_map[[4L]] +
         2L * zoom_map[[4L]] * zoom_map[[8L]] +
         2L * zoom_map[[2L]] * zoom_map[[6L]] +

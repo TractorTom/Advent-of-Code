@@ -16,7 +16,7 @@ claws_example <- readLines(file.path("2024", "Day13", "claws_example.txt"))
 
 # Déclaration fonction ---------------------------------------------------------
 
-source("R/utils.R")
+source(file.path("R", "utils.R"))
 
 read_claws_data <- function(input_claws) {
     pattern <- "^(?:Button [AB]|Prize): X[+=](\\d+), Y[+=](\\d+)$"
