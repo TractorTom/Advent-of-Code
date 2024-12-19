@@ -17,40 +17,41 @@ onsen_example <- readLines(file.path("2024", "Day19", "onsen_example.txt"))
 # Déclaration fonction ---------------------------------------------------------
 
 read_towel <- function(input_onsen) {
-    stripes <- strsplit(input_onsen[1], ", ", fixed = TRUE) |> unlist()
-    designs <- input_onsen[-(1:2)]
+    stripes <- strsplit(input_onsen[[1L]], ", ", fixed = TRUE) |> unlist()
+    designs <- input_onsen[-(1L:2L)]
     return(list(patterns = stripes, designs = designs))
 }
 
-count_different_ways <- function(towel, patterns) {
-    if (nchar(towel) == 0) {
-        return(1)
+count_different_ways <- function(design, patterns, cache) {
+    if (nchar(design) == 0L) {
+        return(1.0)
     }
-    if (!is.null(grand_possible[[towel]])
-        && !is.na(grand_possible[[towel]])) {
-        return(grand_possible[[towel]])
+    if (!is.null(cache[[design]])
+        && !is.na(cache[[design]])) {
+        return(cache[[design]])
     }
 
-    sol <- 0
+    nb_solutions <- 0.0
     for (pattern in patterns) {
-        if (startsWith(towel, pattern)) {
+        if (startsWith(design, pattern)) {
             solution <- count_different_ways(
-                towel = substr(towel, nchar(pattern) + 1, 100),
-                patterns = patterns
+                design = substr(design, nchar(pattern) + 1L, 100L),
+                patterns = patterns,
+                cache = cache
             )
-            sol <- sol + solution
+            nb_solutions <- nb_solutions + solution
         }
     }
-    grand_possible[[towel]] <<- sol
-    return(sol)
+    cache[[design]] <- nb_solutions
+    return(nb_solutions)
 }
 
 solve_day19_part1 <- function(input_onsen) {
     data_towel <- read_towel(input_onsen)
 
-    stripes <- data_towel$patterns
+    stripes <- data_towel[["patterns"]]
     pattern <- paste0("^(", paste0(stripes, collapse = "|"), ")*$")
-    designs <- data_towel$designs
+    designs <- data_towel[["designs"]]
 
     possible_designs <- grepl(
         pattern = pattern,
@@ -62,14 +63,18 @@ solve_day19_part1 <- function(input_onsen) {
     return(possible_designs)
 }
 
-solve_day19_part2 <- function(input_onsen){
+solve_day19_part2 <- function(input_onsen) {
     data_towel <- read_towel(input_onsen)
-    grand_possible <<- hashtab()
-    s <- 0
-    for (design in data_towel$designs) {
-        s <- s + count_different_ways(design, data_towel$patterns)
+    cache <- hashtab()
+    nb_solutions <- 0.0
+    for (design in data_towel[["designs"]]) {
+        nb_solutions <- nb_solutions + count_different_ways(
+            design = design,
+            patterns = data_towel[["patterns"]],
+            cache = cache
+        )
     }
-    return(s)
+    return(nb_solutions)
 }
 
 
