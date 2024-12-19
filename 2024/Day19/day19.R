@@ -26,14 +26,18 @@ count_different_ways <- function(towel, patterns) {
     if (nchar(towel) == 0) {
         return(1)
     }
-    if (!is.null(grand_possible[[towel]]) && !is.na(grand_possible[[towel]])) {
+    if (!is.null(grand_possible[[towel]])
+        && !is.na(grand_possible[[towel]])) {
         return(grand_possible[[towel]])
     }
 
     sol <- 0
     for (pattern in patterns) {
         if (startsWith(towel, pattern)) {
-            solution <- is_possible(substr(towel, nchar(pattern) + 1, 100), patterns = patterns)
+            solution <- count_different_ways(
+                towel = substr(towel, nchar(pattern) + 1, 100),
+                patterns = patterns
+            )
             sol <- sol + solution
         }
     }
