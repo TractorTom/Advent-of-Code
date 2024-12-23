@@ -7,6 +7,7 @@ encoding: "UTF-8"
 exclusions: list(
     "2024/Day03/day03.R" = list(nonportable_path_linter = 32),
     "2024/Day08/day08.R" = list(object_name_linter = 43:66),
+    "2024/Day23/day23.R" = list(object_usage_linter = Inf),
     "2020",
     "2021",
     "2022",
