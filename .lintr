@@ -1,15 +1,17 @@
 linters: lintr::all_linters(
         indentation_linter = indentation_linter(indent = 4L),
         line_length_linter = lintr::line_length_linter(100L),
-        object_name_linter = NULL
+        object_name_linter = NULL,
+        return_linter = NULL
     )
 encoding: "UTF-8"
 exclusions: list(
     "2024/Day03/day03.R" = list(nonportable_path_linter = 32),
-    "2024/Day08/day08.R" = list(object_name_linter = 43:66),
+    "2024/Day08/day08.R" = list(object_name_linter = 43:66, object_overwrite_linter = Inf, cyclocomp_linter = Inf),
     "2024/Day23/day23.R" = list(object_usage_linter = Inf),
     "2020",
     "2021",
     "2022",
-    "2023"
+    "2023",
+    "2024"
   )

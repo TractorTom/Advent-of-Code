@@ -28,7 +28,7 @@ extract_regex <- function(x, pattern) {
 
 solve_day03_part1 <- function(data_memory) {
     mul <- data_memory |>
-        paste0(collapse = "") |>
+        paste(collapse = "") |>
         extract_regex(pattern = "mul\\([0-9]{1,3},[0-9]{1,3}\\)") |>
         unlist() |>
         extract_regex(pattern = "\\d+")
@@ -62,7 +62,7 @@ extract_enabled <- function(x) {
 
 solve_day03_part2 <- function(data_memory) {
     corrupted_memory <- data_memory |>
-        paste0(collapse = "") |>
+        paste(collapse = "") |>
         vapply(FUN = solve_day03_part1, FUN.VALUE = numeric(1L)) |>
         sum()
     return(corrupted_memory)

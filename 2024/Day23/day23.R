@@ -53,10 +53,9 @@ solve_day23_part1 <- function(data_lan) {
 
     trio <- trio |> lapply(sort) |> do.call(what = rbind) |> as.data.frame()
     trio <- trio[!duplicated(trio), ]
-    nb_trio <- trio |> subset(startsWith(V1, "t")
-                              | startsWith(V2, "t")
-                              | startsWith(V3, "t")) |>
-        nrow()
+    nb_trio <- sum(startsWith(trio$V1, "t")
+                   | startsWith(trio$V2, "t")
+                   | startsWith(trio$V3, "t"))
     return(nb_trio)
 }
 
@@ -90,7 +89,7 @@ solve_day23_part2 <- function(data_lan) {
     )
     solution <- all_computers[which(max_group == max(max_group))] |>
         sort() |>
-        paste0(collapse = ",")
+        paste(collapse = ",")
     return(solution)
 }
 
