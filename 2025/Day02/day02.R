@@ -53,7 +53,8 @@ get_div <- function(digits) {
 
 repeat_number <- function(pattern, divisor) {
     len_pattern <- floor(log10(pattern)) + 1L
-    number <- pattern * (1L - 10L ** (len_pattern * divisor)) / (1L - 10L ** (len_pattern))
+    number <- pattern * (1L - 10L ** (len_pattern * divisor)) /
+        (1L - 10L ** (len_pattern))
     return(number)
 }
 
@@ -69,9 +70,11 @@ compute_repeating_number <- function(mini, maxi, part1 = TRUE) {
         len_pattern <- digits %/% divisor
         all_pattern <- seq(mini %/% 10L ** (digits - len_pattern),
                            maxi %/% 10L ** (digits - len_pattern))
-        repeating_numbers <- c(repeating_numbers, repeat_number(all_pattern, divisor))
+        repeating_numbers <- c(repeating_numbers,
+                               repeat_number(all_pattern, divisor))
     }
-    output <- repeating_numbers[repeating_numbers >= mini & repeating_numbers <= maxi]
+    cond <- repeating_numbers >= mini & repeating_numbers <= maxi
+    output <- repeating_numbers[cond]
     return(unique(output))
 }
 
@@ -81,7 +84,11 @@ solve_day02_part1 <- function(raw_ranges) {
     for (k in seq_len(nrow(ranges))) {
         repeating_number <- c(
             repeating_number,
-            compute_repeating_number(ranges[k, 1L], ranges[k, 2L], part1 = TRUE)
+            compute_repeating_number(
+                ranges[k, 1L],
+                ranges[k, 2L],
+                part1 = TRUE
+            )
         )
     }
     return(sum(unique(repeating_number)))
@@ -91,12 +98,13 @@ solve_day02_part2 <- function(raw_ranges) {
     ranges <- read_ranges(raw_ranges)
     repeating_number <- NULL
     for (k in seq_len(nrow(ranges))) {
-        print(k)
-        print(ranges[k, ])
-        print(compute_repeating_number(ranges[k, 1L], ranges[k, 2L], part1 = FALSE))
         repeating_number <- c(
             repeating_number,
-            compute_repeating_number(ranges[k, 1L], ranges[k, 2L], part1 = FALSE)
+            compute_repeating_number(
+                ranges[k, 1L],
+                ranges[k, 2L],
+                part1 = FALSE
+            )
         )
     }
     return(sum(unique(repeating_number)))
