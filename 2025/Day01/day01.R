@@ -10,7 +10,8 @@
 # Import data ------------------------------------------------------------------
 
 rotations <- readLines(file.path("2025", "Day01", "rotations.txt"))
-rotations_example <- readLines(file.path("2025", "Day01", "rotations_example.txt"))
+rotations_example <- readLines(file.path("2025", "Day01",
+                                         "rotations_example.txt"))
 
 
 # Déclaration fonction ---------------------------------------------------------

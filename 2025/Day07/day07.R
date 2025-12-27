@@ -10,30 +10,33 @@
 # Import data ------------------------------------------------------------------
 
 diagrams <- readLines(file.path("2025", "Day07", "diagrams.txt"))
-diagrams_example <- readLines(file.path("2025", "Day07", "diagrams_example.txt"))
+diagrams_example <- readLines(file.path("2025", "Day07",
+                                        "diagrams_example.txt"))
 
 
 # Déclaration fonction ---------------------------------------------------------
 
 count_splits <- function(counter, splitter_line) {
-    new_counter <- double(length(counter))
+    nc <- double(length(counter))
     splitter <- splitter_line == "^"
 
     left_beam <- c(tail(splitter, -1L), FALSE)
     right_beam <- c(FALSE, head(splitter, -1L))
 
-    new_counter[!splitter] <- counter[!splitter]
-    new_counter[right_beam] <- new_counter[right_beam] + counter[splitter]
-    new_counter[left_beam] <- new_counter[left_beam] + as.integer(counter[splitter] > 0L)
+    nc[!splitter] <- counter[!splitter]
+    nc[right_beam] <- nc[right_beam] + counter[splitter]
+    nc[left_beam] <- nc[left_beam] + as.integer(counter[splitter] > 0L)
 
-    return(new_counter)
+    return(nc)
 }
 
 solve_day07_part1 <- function(raw_diagrams) {
     tachyon_manifold <- strsplit(raw_diagrams, split = "", fixed = TRUE)
     header <- tachyon_manifold[[1L]]
-    tachyon_manifold <- tachyon_manifold[seq(from = 1L, to = length(tachyon_manifold), by = 2L)]
-    incoming_beam <- rep(0L, length(header))
+    l <- length(tachyon_manifold)
+    L <- length(header)
+    tachyon_manifold <- tachyon_manifold[seq(from = 1L, to = l, by = 2L)]
+    incoming_beam <- rep(0L, L)
     incoming_beam[header == "S"] <- 1L
     nb_splits <- Reduce(
         f = count_splits,
@@ -44,12 +47,12 @@ solve_day07_part1 <- function(raw_diagrams) {
 }
 
 count_quantum_timelines <- function(counter, splitter_line) {
-    new_counter <- double(length(counter))
+    nc <- double(length(counter))
     splitter <- splitter_line == "^"
-    new_counter[!splitter] <- counter[!splitter]
-    new_counter[splitter] <- counter[c(FALSE, head(splitter, -1L))] +
+    nc[!splitter] <- counter[!splitter]
+    nc[splitter] <- counter[c(FALSE, head(splitter, -1L))] +
         counter[c(tail(splitter, -1L), FALSE)]
-    return(new_counter)
+    return(nc)
 }
 
 solve_day07_part2 <- function(raw_diagrams) {

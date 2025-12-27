@@ -11,7 +11,8 @@
 # Import data ------------------------------------------------------------------
 
 banks <- readLines(file.path("2025", "Day03", "joltage_rating.txt"))
-banks_example <- readLines(file.path("2025", "Day03", "joltage_rating_example.txt"))
+banks_example <- readLines(file.path("2025", "Day03",
+                                     "joltage_rating_example.txt"))
 
 
 # Déclaration fonction ---------------------------------------------------------

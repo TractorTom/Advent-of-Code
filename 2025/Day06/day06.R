@@ -26,10 +26,10 @@ read_programs <- function(raw_worksheet) {
 
 solve_programs <- function(programs) {
     values <- programs[-nrow(programs), ] |> apply(FUN = as.double, 2L)
-    multiplicative_problems <- programs[nrow(programs), ] == "*"
-    values[, multiplicative_problems] <- log(values[, multiplicative_problems])
+    multiplicative_pbs <- programs[nrow(programs), ] == "*"
+    values[, multiplicative_pbs] <- log(values[, multiplicative_pbs])
     values <- colSums(values)
-    values[multiplicative_problems] <- round(exp(values[multiplicative_problems]))
+    values[multiplicative_pbs] <- round(exp(values[multiplicative_pbs]))
     grand_total <- sum(values)
 
     return(grand_total)

@@ -1,6 +1,6 @@
 linters: lintr::all_linters(
         indentation_linter = indentation_linter(indent = 4L),
-        line_length_linter = lintr::line_length_linter(100L),
+        line_length_linter = lintr::line_length_linter(80L),
         object_name_linter = NULL,
         return_linter = NULL
     )

@@ -11,7 +11,8 @@
 # Import data ------------------------------------------------------------------
 
 rolls_map <- readLines(file.path("2025", "Day04", "rolls_map.txt"))
-rolls_map_example <- readLines(file.path("2025", "Day04", "rolls_map_example.txt"))
+rolls_map_example <- readLines(file.path("2025", "Day04",
+                                         "rolls_map_example.txt"))
 
 
 # Déclaration fonction ---------------------------------------------------------
